@@ -1,7 +1,9 @@
 package coursework;
 /**
 *
-* @author Ryan
+* @author Ryan Spowart
+* Models the Statistics stored for each Phase
+* These are combined externally to form Segment Statistics
 */
 public class Statistics {
 	int WaitTime;

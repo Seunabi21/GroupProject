@@ -43,7 +43,7 @@ public class JunctionControler {
 	 * Validation not included
 	 */
 	public void AddVehicle(Object[] uiInput) {
-		Phase.get((String)uiInput[6]).add(new Vehicle((String)uiInput[0], (String)uiInput[1], (Integer)uiInput[2], (Integer)uiInput[3], (String)uiInput[4], (Integer)uiInput[5],(String)uiInput[6]));
+		Phase.get((String)uiInput[7]).add(new Vehicle((String)uiInput[0], (String)uiInput[1], Integer.parseInt((String) uiInput[2]), Integer.parseInt((String)uiInput[4]), (String)uiInput[3], Integer.parseInt((String) uiInput[5]),(String)uiInput[7]));
 	}
 	
 	/*

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -479,8 +480,12 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     
     //Adds vehicle to simulation
     private void addVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonMouseEntered
-    	junc.AddVehicle(addVehicleTable.getComponents());
-    	junc.CalcPhases();
+    	ArrayList<Object> vehicle = new ArrayList<Object>();
+    	for(int i = 0; i < 8; i++) {
+    		vehicle.add(addVehicleTable.getValueAt(0, i));
+    	}
+    	System.out.println(vehicle.toString());
+    	junc.AddVehicle(vehicle.toArray());
     	update();
     }//GEN-LAST:event_exitButtonMouseEntered
     
