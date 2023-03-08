@@ -1,5 +1,8 @@
 package coursework;
-
+/**
+*
+* @author Ryan
+*/
 public class Statistics {
 	int WaitTime;
 	int WaitLength;
@@ -17,5 +20,9 @@ public class Statistics {
 	public String toString() {
 		return " " + WaitTime + "s | " + WaitLength + "m | " +  CrossTime + "s | " + Emissions + "g \n";
 		
+	}
+	public Object[] toObject() {
+		Object[] output = {WaitTime,WaitLength,CrossTime};
+		return output;
 	}
 }

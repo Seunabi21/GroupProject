@@ -1,5 +1,8 @@
 package coursework;
-
+/**
+*
+* @author Ryan
+*/
 public class Vehicle {
 	
 	String ID;		  // Registration plate equivalent
@@ -9,9 +12,9 @@ public class Vehicle {
 	int Length;		  // Meters
 	int Emission;	  // Grams of CO2 emitted
 	String Status;	  // Waiting - driving?
-	
+	String Segment;
 	//Constructor
-	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission) {
+	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission, String Segment) {
 		this.ID = ID;
 		this.Type = Type;
 		this.CrossTime = CrossTime;
@@ -19,6 +22,7 @@ public class Vehicle {
 		this.Length = Length;
 		this.Emission = Emission;
 		this.Status = "Waiting";
+		this.Segment = Segment;
 	}
 	
 	//Methods
@@ -31,7 +35,10 @@ public class Vehicle {
 		return Emission * wait;
 	}
 	public String toString() {
-		return ID + " | " + Status + " | " +  Type + " | " + CrossTime + " | " + Length + " | " + Direction + " | " + Emission + "g";
-		
+		return ID + " , " + Status + " , " +  Type + " , " + CrossTime + " , " + Length + " , " + Direction + " , " + Emission + "}";
+	}
+	public Object[] toObject() {
+		Object[] output = {ID,Type,CrossTime,Direction,Length,Emission,Status,Segment};
+		return output;
 	}
 }
