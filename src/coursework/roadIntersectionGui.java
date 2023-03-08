@@ -21,7 +21,10 @@ import javax.swing.table.TableColumnModel;
 /**
  *
  * @author Chris
- * Modified by Ryan 07/03/2022 to add connection to model.
+ * Modified by Ryan 07/03/2022
+ * added connection to model
+ * 
+ * 
  */
 public class roadIntersectionGui extends javax.swing.JFrame {
 	static JunctionControler junc;
@@ -122,7 +125,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	//Initialising components
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         vehiclesTable = new javax.swing.JTable();
@@ -149,11 +152,11 @@ public class roadIntersectionGui extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(2, 0, 36));
 
+ // Vehicle Table Configuration
         vehiclesTable.setBackground(new java.awt.Color(25, 7, 60));
         vehiclesTable.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         vehiclesTable.setForeground(new java.awt.Color(255, 255, 255));
         vehiclesTable.setModel(new javax.swing.table.DefaultTableModel(
-            
             	junc.vehToObj()
             ,
             new String [] {
@@ -174,6 +177,8 @@ public class roadIntersectionGui extends javax.swing.JFrame {
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        
+  // statisticsTable Table Configuration
         jScrollPane1.setViewportView(vehiclesTable);
 
         statisticsTable.setBackground(new java.awt.Color(25, 7, 60));
@@ -188,7 +193,8 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         statisticsTable.setGridColor(new java.awt.Color(236, 234, 234));
         statisticsTable.setRowHeight(30);
         jScrollPane3.setViewportView(statisticsTable);
-
+        
+  //Phase Table Configuration
         phaseTable.setBackground(new java.awt.Color(25, 7, 60));
         phaseTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         phaseTable.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -205,6 +211,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         phaseTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(phaseTable);
 
+        
         jTextField1.setFont(new java.awt.Font("Lucida Fax", 3, 18)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText(junc.CalcTotalEmissions()+"");
@@ -441,6 +448,9 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+ /*
+  *  Action Listeners
+  */
     private void vehiclesTableAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_vehiclesTableAncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_vehiclesTableAncestorAdded
@@ -451,7 +461,8 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         if(JOptionPane.showConfirmDialog(confirmexit, "Are you sure you want to exit","EXIT", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION){
             System.exit(0);
         }
-    }//GEN-LAST:event_exitButtonActionPerformed
+    }
+    //Starts Simulation
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
     	junc.CalcPhases();
     	update();
@@ -464,9 +475,9 @@ public class roadIntersectionGui extends javax.swing.JFrame {
 
     private void exitButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_exitButtonMouseEntered
+    }//GEN-LAST:event_exitButton   MouseEntered
     
-    //On addvehicle Button press
+    //Adds vehicle to simulation
     private void addVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonMouseEntered
     	junc.AddVehicle(addVehicleTable.getComponents());
     	junc.CalcPhases();

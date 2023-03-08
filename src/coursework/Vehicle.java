@@ -1,7 +1,7 @@
 package coursework;
 /**
-*
-* @author Ryan
+* @author Ryan Spowart
+* Models the vehicles used within the application
 */
 public class Vehicle {
 	
@@ -13,7 +13,9 @@ public class Vehicle {
 	int Emission;	  // Grams of CO2 emitted
 	String Status;	  // Waiting - driving?
 	String Segment;
-	//Constructor
+	/*
+	 * Constructor
+	 */
 	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission, String Segment) {
 		this.ID = ID;
 		this.Type = Type;
@@ -26,17 +28,27 @@ public class Vehicle {
 	}
 	
 	//Methods
-	//Calculates the emissions a car generates to cross the junction
+	/*
+	 * Calculates the emissions a car generates to cross the junction
+	 */
 	public int CrossEmisions() {
 		return Emission * CrossTime;
 	}
-	//Calculates the emissions a vehicle generates while waiting an amount of time
+	/*
+	 * Calculates the emissions a vehicle generates while waiting an amount of time
+	 */
 	public int WaitEmissions(int wait) {
 		return Emission * wait;
 	}
+	/*
+	 * Overwrites original to String with a custom version
+	 */
 	public String toString() {
 		return ID + " , " + Status + " , " +  Type + " , " + CrossTime + " , " + Length + " , " + Direction + " , " + Emission + "}";
 	}
+	/*
+	 * returns the Vehicle in the form of an Object array of info.
+	 */
 	public Object[] toObject() {
 		Object[] output = {ID,Type,CrossTime,Direction,Length,Emission,Status,Segment};
 		return output;

@@ -7,49 +7,50 @@ import java.io.*;
 import java.util.Scanner; 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+* @author Ryan Spowart
+* Controller Class within MVC architecture
+* 
+*/
 
 public class JunctionControler {
 
-	HashMap <String, Queue <Vehicle> > Phase;
-	HashMap <String, Statistics> PhaseStats;
-	ArrayList<Integer> PhaseTime;
+	HashMap <String, Queue <Vehicle> > Phase; //Stores the phase and queue of vehicles
+	HashMap <String, Statistics> PhaseStats; //Stores the statistics attributed to each phase
+	ArrayList<Integer> PhaseTime; //Stores the time for each phase
+	
 	//Constructor
 	public JunctionControler() {
+		//Initialising variables
 		Phase = new HashMap<>();
 		PhaseStats = new HashMap<String, Statistics>();
 		PhaseTime = new ArrayList<Integer>();
 		
 
-		importVehicles();
+		importVehicles();//Importing data from csv
 		importPhases();
+		
 		//Initialising PhaseStats
 		for (int i = 0; i < PhaseTime.size(); i ++) {
 			PhaseStats.put(""+i,new Statistics());
 		}
-		//CalcPhases();
-		//generateReport();
 	}
-	public void AddVehicle(Object[] uiInput) {
-		Queue<Vehicle> q = new LinkedList<>();
-		Vehicle tmpVeh;
-		
-		tmpVeh = new Vehicle((String)uiInput[0], (String)uiInput[1], (Integer)uiInput[2], (Integer)uiInput[3], (String)uiInput[4], (Integer)uiInput[5],(String)uiInput[6]);
-		q = new LinkedList<>();
-		
-		//Avoiding overwriting existing queues
-		if(Phase.containsKey(uiInput[6])) {
-			q = Phase.get(uiInput[6]);
-			q.add(tmpVeh);
-			Phase.put((String)uiInput[6], q);
-		
-		}else {
-			q.add(tmpVeh); //Adding new vehicle to queue
-			Phase.put((String)uiInput[6],q); // adding queue and to correct segment
-		}
-	}
+	
 	//Methods
-	public void importVehicles() {
+	/*
+	 * Adds a new vehicle to the system
+	 * Status not required as it will always initially be waiting.
+	 * Validation not included
+	 */
+	public void AddVehicle(Object[] uiInput) {
+		Phase.get((String)uiInput[6]).add(new Vehicle((String)uiInput[0], (String)uiInput[1], (Integer)uiInput[2], (Integer)uiInput[3], (String)uiInput[4], (Integer)uiInput[5],(String)uiInput[6]));
+	}
+	
+	/*
+	 * Imports vehicles from a csv and adds them to the correct data structures.
+	 * Data stored within Datafiles directory
+	 */
+	private void importVehicles() {
 
 		Scanner sc;
 		Queue<Vehicle> q = new LinkedList<>();
@@ -89,8 +90,11 @@ public class JunctionControler {
 			e.printStackTrace();
 		}  
 	}
-	
-	public void importPhases() {
+	/*
+	 * Imports Phases from a csv and adds them to the correct data structures.
+	 * Data stored within Datafiles directory
+	 */
+	private void importPhases() {
 		Scanner sc;
 		try {
 			System.out.println(" Beginning Phase File Import.");
@@ -111,7 +115,11 @@ public class JunctionControler {
 			e.printStackTrace();
 		}  
 	}
-	
+	/*
+	 * Generates a report from the statistics stores and saves to a .txt file
+	 * Outputs the text file to the datafiles directory
+	 * will save over previous file automatically.
+	 */
 	public String generateReport() {
 		
 		int[] totalv = new int[PhaseTime.size()+1];
@@ -158,6 +166,10 @@ public class JunctionControler {
 		System.out.println("Average Wait : " + totalTme/ total + "s" );
 		return "";
 	}
+	/*
+	 * Phase Calculations for vehicle transition through junction
+	 * also calculates statistics
+	 */
 	public void CalcPhases() {
 		int p = 0;
 		int phaseTime = 0;
@@ -184,16 +196,11 @@ public class JunctionControler {
 			p++;
 		};
 	}
-	public int CalcTotalEmissions() {
-		int total = 0;
-		for (int s = 0; s < PhaseStats.size(); s++) {
-			total += PhaseStats.get("" + s).Emissions;
-		}
-		
-		return total;
-	}
-	
-	public void UpdateStats(Vehicle v, int vTime, int curP, int p) {
+	/*
+	 * Updates the statistics, only used within Calc Phases
+	 * Reduces repeating code
+	 */
+	private void UpdateStats(Vehicle v, int vTime, int curP, int p) {
 		v.Status = "Crossed";
 		PhaseStats.get("" + p).WaitTime += vTime + curP; 
 		PhaseStats.get("" + p).WaitLength += v.Length;
@@ -201,21 +208,42 @@ public class JunctionControler {
 		PhaseStats.get(""+p).Emissions += (v.Emission * (PhaseStats.get(""+p).WaitTime / 60 ));
 	}
 	
+	/*
+	 * Calculates the total emissions
+	 */
+	public int CalcTotalEmissions() {
+		int total = 0;
+		for (int s = 0; s < PhaseStats.size(); s++) { //summing all emissions stored
+			total += PhaseStats.get("" + s).Emissions;
+		}
+		
+		return total;
+	}
+
+	/*
+	 * Converts the stored data structures to a generic format for us in gui elements
+	 * for vehicles
+	 */
+
 	public Object[][] vehToObj() {
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-		for(Queue<Vehicle> q : Phase.values()) {
+		for(Queue<Vehicle> q : Phase.values()) {	//Converting vehicles hashmap to a list
 			for(Vehicle v : q) {
 				vehicles.add(v);
 			}
 		}
 		
-		Object[][] output = new Object[vehicles.size()][8];
+		Object[][] output = new Object[vehicles.size()][8];	//converting array list to generic format
 		for(int i = 0; i < vehicles.size(); i++) {
 			output[i] = vehicles.get(i).toObject();
 		}
 		return output;
 	}
 	
+	/*
+	 * Converts the stored data structures to a generic format for us in gui elements
+	 * for Phases
+	 */
 	public Object[][] phaseToObj(){
 		Object[][] output = new Object[PhaseTime.size()][2];
 		for(int i = 0; i < PhaseTime.size(); i ++) {
@@ -224,15 +252,19 @@ public class JunctionControler {
 		}
 		return output;
 	}
-	
+	/*
+	 * Converts the stored data structures to a generic format for us in gui elements
+	 * for Segment Statistics
+	 */
 	public Object[][] segToObj(){
 		
 		Object[][] Segments = new Object [4][4];
-		for(int x = 0; x < 4; x++) {
+		for(int x = 0; x < 4; x++) {	//initialising new generic object
 			for(int y = 0; y < 4; y++) {
 				Segments[x][y] = 0;
 			}
 		}
+		//Assigning data to generic format
 		for(int s =0; s < 8; s++) {
 			Segments[s/2][0] = "S" + ((s/2)+1);
 			Segments[s/2][1] = (Integer)Segments[s/2][1] + PhaseStats.get(""+s).WaitTime;
