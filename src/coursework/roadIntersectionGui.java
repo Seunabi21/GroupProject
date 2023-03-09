@@ -4,29 +4,15 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javax.swing.GroupLayout.Alignment.CENTER;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,8 +22,13 @@ import org.apache.commons.csv.CSVRecord;
 /**
  *
  * @author Chris
+ * Modified by Ryan 07/03/2022
+ * added connection to model
+ * 
+ * 
  */
 public class roadIntersectionGui extends javax.swing.JFrame {
+	static JunctionControler junc;
 
     /**
      * Creates new form roadIntersectionGui
@@ -124,50 +115,6 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         addVehicleTH.setFont(new Font("San-Serif", Font.BOLD,14));
         addVehicleTH.setDefaultRenderer(centerAlign);
         addVehicleTH.setDefaultRenderer(bgColor);
-
-        
-//      CSV File Parser   
-        File vehiclecsv = new File("C:/Users/Chris/Documents/vehicles.csv");
-        try {
-            int start = 0;
-            InputStreamReader vCsvRead = new InputStreamReader(new FileInputStream(vehiclecsv));
-            CSVParser csvp = CSVFormat.DEFAULT.parse(vCsvRead);
-            for(CSVRecord csvrecord:csvp){
-                Vector addv = new Vector();
-                addv.add(csvrecord.get(0));
-                addv.add(csvrecord.get(1));
-                addv.add(csvrecord.get(2)+"s");
-                addv.add(csvrecord.get(3));
-                addv.add(csvrecord.get(4)+"m");
-                addv.add(csvrecord.get(5)+"kg");
-                addv.add(csvrecord.get(6));
-                addv.add(csvrecord.get(7));
-                vehMod.addRow(addv);
-            }
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(roadIntersectionGui.class.getName()).log(Level.SEVERE, null, ex);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        
-        File phaseCsv = new File("C:/Users/Chris/Documents/phases.csv");
-        try {
-            int start = 0;
-            InputStreamReader pCsvRead = new InputStreamReader(new FileInputStream(phaseCsv));
-            CSVParser csvp2 = CSVFormat.DEFAULT.parse(pCsvRead);
-            for(CSVRecord csvrecord:csvp2){
-                Vector addp = new Vector();
-                addp.add(csvrecord.get(0));
-                addp.add(csvrecord.get(1)+"s");
-                phasesMod.addRow(addp);
-            }
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(roadIntersectionGui.class.getName()).log(Level.SEVERE, null, ex);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
     }
     
 
@@ -179,7 +126,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	//Initialising components
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         vehiclesTable = new javax.swing.JTable();
@@ -206,13 +153,13 @@ public class roadIntersectionGui extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(2, 0, 36));
 
+ // Vehicle Table Configuration
         vehiclesTable.setBackground(new java.awt.Color(25, 7, 60));
         vehiclesTable.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         vehiclesTable.setForeground(new java.awt.Color(255, 255, 255));
         vehiclesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
+            	junc.vehToObj()
+            ,
             new String [] {
                 "Vehicle", "Type", "Crossing Time", "Direction", "Length", "Emission", "Status", "Segment"
             }
@@ -231,18 +178,15 @@ public class roadIntersectionGui extends javax.swing.JFrame {
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        
+  // statisticsTable Table Configuration
         jScrollPane1.setViewportView(vehiclesTable);
 
         statisticsTable.setBackground(new java.awt.Color(25, 7, 60));
         statisticsTable.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         statisticsTable.setForeground(new java.awt.Color(255, 255, 255));
         statisticsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"S1", "1200s", "2000m", "20s"},
-                {"S2", "300s", "250m", "10s"},
-                {"S3", "600s", "1500m", "25s"},
-                {"S4", "900s", "300m", "12s"}
-            },
+        		junc.segToObj(),
             new String [] {
                 "Segment", "Waiting Time", "Waiting Length", "Cross Time"
             }
@@ -250,15 +194,14 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         statisticsTable.setGridColor(new java.awt.Color(236, 234, 234));
         statisticsTable.setRowHeight(30);
         jScrollPane3.setViewportView(statisticsTable);
-
+        
+  //Phase Table Configuration
         phaseTable.setBackground(new java.awt.Color(25, 7, 60));
         phaseTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         phaseTable.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         phaseTable.setForeground(new java.awt.Color(255, 255, 255));
         phaseTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
+            junc.phaseToObj(),
             new String [] {
                 "Phase", "Duration"
             }
@@ -269,9 +212,10 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         phaseTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(phaseTable);
 
+        
         jTextField1.setFont(new java.awt.Font("Lucida Fax", 3, 18)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("10,200");
+        jTextField1.setText(junc.CalcTotalEmissions()+"");
         jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Lucida Fax", 1, 16)); // NOI18N
@@ -281,7 +225,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Lucida Fax", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 212, 240));
-        jLabel2.setText("Kg");
+        jLabel2.setText("g");
 
         pageHeader.setBackground(new java.awt.Color(69, 73, 109));
 
@@ -384,6 +328,11 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/coursework/images/start.png"))); // NOI18N
         cancelButton.setText("Start");
         cancelButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         addVehicleButton.setBackground(new java.awt.Color(3, 192, 60));
         addVehicleButton.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -392,6 +341,11 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         addVehicleButton.setText("Add");
         addVehicleButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         addVehicleButton.setIconTextGap(7);
+        addVehicleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addVehicleButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -495,6 +449,9 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+ /*
+  *  Action Listeners
+  */
     private void vehiclesTableAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_vehiclesTableAncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_vehiclesTableAncestorAdded
@@ -503,10 +460,17 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         // TODO add your handling code here:
         JFrame confirmexit = new JFrame("EXIT");
         if(JOptionPane.showConfirmDialog(confirmexit, "Are you sure you want to exit","EXIT", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION){
-            System.exit(0);
+            junc.generateReport();
+        	System.exit(0);
         }
+    }
+    //Starts Simulation
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+    	junc.CalcPhases();
+    	update();
+        cancelButton.setText("Continue");
     }//GEN-LAST:event_exitButtonActionPerformed
-
+    
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
         // TODO add your handling code here:
        
@@ -514,8 +478,37 @@ public class roadIntersectionGui extends javax.swing.JFrame {
 
     private void exitButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseEntered
         // TODO add your handling code here:
+    }//GEN-LAST:event_exitButton   MouseEntered
+    
+    //Adds vehicle to simulation
+    private void addVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonMouseEntered
+    	ArrayList<Object> vehicle = new ArrayList<Object>();
+    	for(int i = 0; i < 8; i++) {
+    		vehicle.add(addVehicleTable.getValueAt(0, i));
+    	}
+    	System.out.println(vehicle.toString());
+    	vehicle.set(6, vehicle.get(7)); //adjusting format.
+    	junc.AddVehicle(vehicle.toArray());
+    	update();
     }//GEN-LAST:event_exitButtonMouseEntered
-
+    
+    //Updates ui elements with info from Junction Controller when called.
+    private void update() {
+    	statisticsTable.setModel(new javax.swing.table.DefaultTableModel(
+        		junc.segToObj(),
+            new String [] {
+                "Segment", "Waiting Time", "Waiting Length", "Cross Time"
+            }
+        ));
+        vehiclesTable.setModel(new javax.swing.table.DefaultTableModel(
+            	junc.vehToObj()
+            ,
+            new String [] {
+                "Vehicle", "Type", "Crossing Time", "Direction", "Length", "Emission", "Status", "Segment"
+            }
+        ));
+        jTextField1.setText(junc.CalcTotalEmissions()+"");
+    }
     /**
      * @param args the command line arguments
      */
@@ -526,6 +519,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
+        	junc = new JunctionControler();
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
