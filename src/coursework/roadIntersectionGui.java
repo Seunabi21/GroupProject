@@ -468,6 +468,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
     	junc.CalcPhases();
     	update();
+        cancelButton.setText("Continue");
     }//GEN-LAST:event_exitButtonActionPerformed
     
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked

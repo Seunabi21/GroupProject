@@ -219,8 +219,6 @@ public class JunctionControler {
 					}else if ((curP - v.CrossTime)>=0 && !v.Status.equals("Crossed")){ //Odd -- Left
 						vTime += v.CrossTime;
 						UpdateStats( v, vTime, phaseTime,  p);
-					}else {
-						break; 
 					}
 				}
 				p++;
@@ -228,6 +226,9 @@ public class JunctionControler {
 			count ++;
 		}
 	}
+	/*
+	 * returns whether all vehicles have crossed or not
+	 */
 	private Boolean isCrossed() {
 		int p = 0;
 		while ( p <  PhaseTime.size()) {
