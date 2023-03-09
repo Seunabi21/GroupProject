@@ -487,6 +487,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     		vehicle.add(addVehicleTable.getValueAt(0, i));
     	}
     	System.out.println(vehicle.toString());
+    	vehicle.set(6, vehicle.get(7)); //adjusting format.
     	junc.AddVehicle(vehicle.toArray());
     	update();
     }//GEN-LAST:event_exitButtonMouseEntered

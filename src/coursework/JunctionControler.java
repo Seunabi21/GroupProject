@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.io.*;  
-import java.util.Scanner; 
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.Arrays;
 /**
@@ -44,7 +46,11 @@ public class JunctionControler {
 	 */
 	public void AddVehicle(Object[] uiInput) {
 		System.out.println((String)uiInput[7]);
-		Phase.get((String)uiInput[7]).add(new Vehicle((String)uiInput[0], (String)uiInput[1], Integer.parseInt((String) uiInput[2]), Integer.parseInt((String)uiInput[4]), (String)uiInput[3], Integer.parseInt((String) uiInput[5]),(String)uiInput[7]));
+		try {
+			Phase.get((String)uiInput[7]).add(new Vehicle(uiInput));
+		} catch (ValidationExeption e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*
@@ -65,21 +71,25 @@ public class JunctionControler {
 			{  
 				//Splitting csv line into an array
 				String[] csvRow = sc.nextLine().split(",");
-				// creating a new vehicle object
-				tmpVeh = new Vehicle(csvRow[0], csvRow[1], Integer.parseInt(csvRow[2]), Integer.parseInt(csvRow[3]), csvRow[4], Integer.parseInt(csvRow[5]),csvRow[6]);
-				q = new LinkedList<>();
-				
-				//Avoiding overwriting existing queues
-				if(Phase.containsKey(csvRow[6])) {
-					q = Phase.get(csvRow[6]);
-					q.add(tmpVeh);
-					Phase.put(csvRow[6], q);
-				
-				}else {
-					q.add(tmpVeh); //Adding new vehicle to queue
-					Phase.put(csvRow[6],q); // adding queue and to correct segment
-				}
-				
+				try {
+					// creating a new vehicle object
+					tmpVeh = new Vehicle(csvRow);
+					q = new LinkedList<>();
+					
+					//Avoiding overwriting existing queues
+					if(Phase.containsKey(csvRow[6])) {
+						q = Phase.get(csvRow[6]);
+						q.add(tmpVeh);
+						Phase.put(csvRow[6], q);
+					
+					}else {
+						q.add(tmpVeh); //Adding new vehicle to queue
+						Phase.put(csvRow[6],q); // adding queue and to correct segment
+					}
+					
+				}catch (ValidationExeption e) {
+					e.printStackTrace();
+				}  
 			}   
 			
 			System.out.println(Phase);
@@ -87,13 +97,13 @@ public class JunctionControler {
 			sc.close();  //closes the scanner  
 			
 		} catch (FileNotFoundException e) {
-			
 			e.printStackTrace();
-		}  
+		} 
 	}
 	/*
 	 * Imports Phases from a csv and adds them to the correct data structures.
 	 * Data stored within Datafiles directory
+	 * Also Validates the input data upon entry
 	 */
 	private void importPhases() {
 		Scanner sc;
@@ -104,17 +114,44 @@ public class JunctionControler {
 			
 			while (sc.hasNextLine())  //returns a boolean value  
 			{  
+				try { // Validating file input
+					String nextLine = sc.nextLine();
+					if(Integer.parseInt(nextLine) < 10 ) { //Minimum bounds
+						PhaseTime.add(10);
+						throw new ValidationExeption("Phase Below valid range...Adding Default");
+					}else if(Integer.parseInt(nextLine) > 500){ //Maximum bounds
+						PhaseTime.add(500);
+						throw new ValidationExeption("Phase Above valid range...Adding Default");
+					}else if(PhaseTime.size() > 8){ //Maximum amount of phases
+						throw new ValidationExeption("too many phases in file");
+					}else {
+						PhaseTime.add(Integer.parseInt(nextLine));
+					}
+				}catch (ValidationExeption e) { //printing exception here to allow the file to continue being read
+					e.printStackTrace();
+				}  
 				//Splitting csv line into an array
-				PhaseTime.add(Integer.parseInt(sc.nextLine()));
+				
 			}   
+			//Validating for to few phases.
+			if(PhaseTime.size() < 8) {
+				while(PhaseTime.size() < 8) {
+					PhaseTime.add(60);
+				}
+				throw new ValidationExeption("not enough phases in file...Adding default durations.");
+			}
 			
 			System.out.println(PhaseTime);
 			System.out.println(" File Import Complete.");
 			sc.close();  //closes the scanner  
-			
+			//Printing error stacktraces
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}  
+		} catch (ValidationExeption e) {
+			e.printStackTrace();
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+		}
 	}
 	/*
 	 * Generates a report from the statistics stores and saves to a .txt file
@@ -322,5 +359,4 @@ public class JunctionControler {
 		
 		return Segments;
 	}
-	
 }
