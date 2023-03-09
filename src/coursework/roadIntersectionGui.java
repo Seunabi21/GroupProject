@@ -460,7 +460,8 @@ public class roadIntersectionGui extends javax.swing.JFrame {
         // TODO add your handling code here:
         JFrame confirmexit = new JFrame("EXIT");
         if(JOptionPane.showConfirmDialog(confirmexit, "Are you sure you want to exit","EXIT", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION){
-            System.exit(0);
+            junc.generateReport();
+        	System.exit(0);
         }
     }
     //Starts Simulation
