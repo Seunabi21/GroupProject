@@ -2,6 +2,7 @@ package coursework;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.io.*;  
 import java.util.Scanner;
@@ -45,10 +46,26 @@ public class JunctionControler {
 	 * Status not required as it will always initially be waiting.
 	 * Validation not included
 	 */
-	public void AddVehicle(Object[] uiInput) {
-		System.out.println((String)uiInput[7]);
+	public void AddVehicle(Object[] uiInput) throws DuplicateIdException {
 		try {
-			Phase.get((String)uiInput[7]).add(new Vehicle(uiInput));
+			String vehID = ((String)uiInput[0]);
+			System.out.println(vehID);
+			Integer count = 0;
+			for(Queue<Vehicle> i: Phase.values()) {
+				for(Vehicle j : i){
+					System.out.println(j.ID);
+					if((j.ID).equals(vehID)) {
+						count += 1;
+					}
+				}
+			}
+			
+			if(count == 0) {
+				Phase.get((String)uiInput[6]).add(new Vehicle(uiInput));
+			}else {
+				throw new DuplicateIdException(((String)uiInput[0])+" already exist");
+			}
+			
 		} catch (ValidationExeption e) {
 			e.printStackTrace();
 		}

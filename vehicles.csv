@@ -1,8 +1,0 @@
-Vehicle,Type,Crossing Time,Direction,Length,Emission ,Status,Segment
-k12345,Bus,20,Left,50,15,Waiting,S1
-k74125,Car,10,Straight,30,8,Waiting,S3
-k78963,Bus,20,Right,50,15,Waiting,S2
-k75315,Truck,25,Right,65,20,Waiting,S1
-k45698,Car,10,Straight,30,8,Waiting,S1
-k12547,Car,10,Right,30,8,Waiting,S3
-k63251,Truck,25,Left,65,20,Waiting,S2

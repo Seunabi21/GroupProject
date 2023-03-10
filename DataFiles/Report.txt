@@ -6,5 +6,5 @@ p5 : 1
 p6 : 0
 p7 : 1
 p8 : 0
-Total Emissions : 205g
+Total Emissions : 263g
 Average Wait : 125s

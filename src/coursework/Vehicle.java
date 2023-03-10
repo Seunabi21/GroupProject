@@ -1,6 +1,9 @@
 package coursework;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 /**
 * @author Ryan Spowart
 * Models the vehicles used within the application
@@ -80,25 +83,25 @@ public class Vehicle {
 		    Matcher matcher = pattern.matcher((String)Vehicle[0]);
 		    boolean matchFound = matcher.find();
 		    //Checking regex match
-	    	if(matchFound) {
+	    	if(matchFound || ((String)Vehicle[0]).isEmpty() ) {
 				throw new ValidationExeption("Number Plate Incorrect");
 			//Type Validation
-			}else if(!((String)Vehicle[1]).equals("CAR") && !((String)Vehicle[1]).equals("TRUCK") && !((String)Vehicle[1]).equals("BUS")) {
-				throw new ValidationExeption("Type Incorrect");
+			}else if(!((String)Vehicle[1]).equals("CAR") && !((String)Vehicle[1]).equals("TRUCK") && !((String)Vehicle[1]).equals("BUS") && ((String)Vehicle[1]).isEmpty()  ) {
+				throw new ValidationExeption("Car Type Incorrect");
 			//Cross Time Validation
-			}else if(Integer.parseInt((String) Vehicle[2]) < 0 && Integer.parseInt((String) Vehicle[2]) > 60) {
-				throw new ValidationExeption("Invalid Time");
-			//Length Validation
-			}else if(Integer.parseInt((String) Vehicle[4]) < 0 && Integer.parseInt((String) Vehicle[4]) > 25) {
-				throw new ValidationExeption("Invalid Length");
+			}else if((Integer.parseInt((String) Vehicle[2]) < 1) || (Integer.parseInt((String) Vehicle[2]) > 60)) {
+				throw new ValidationExeption("Invalid Cross Time");
 			//Direction Validation
 			}else if(!((String)Vehicle[3]).equals("Left") && !((String)Vehicle[3]).equals("Right") && !((String)Vehicle[3]).equals("Straight")) {
 				throw new ValidationExeption("Invalid Direction");
+			//Length Validation
+			}else if((Integer.parseInt((String) Vehicle[4]) < 1) || (Integer.parseInt((String) Vehicle[4]) > 25)) {
+				throw new ValidationExeption("Invalid Car Length");
 			//Emissions
-			}else if(Integer.parseInt((String) Vehicle[5]) < 0 && Integer.parseInt((String) Vehicle[5]) > 50) {
-				throw new ValidationExeption("Invalid Emission");
+			}else if((Integer.parseInt((String) Vehicle[5]) < 1) || (Integer.parseInt((String) Vehicle[5]) > 50)) {
+				throw new ValidationExeption("Invalid Car Emission");
 			//Phase
-			}else if(Integer.parseInt((String) Vehicle[6]) < 0 && Integer.parseInt((String) Vehicle[6]) > 4) {
+			}else if((Integer.parseInt((String) Vehicle[6]) < 1) || (Integer.parseInt((String) Vehicle[6]) > 4)) {
 				throw new ValidationExeption("Invalid Phase");
 			}
 	    //Other Possible Exceptions
