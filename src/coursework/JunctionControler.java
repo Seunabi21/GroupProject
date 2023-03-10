@@ -12,7 +12,8 @@ import java.util.Arrays;
 /**
 * @author Ryan Spowart
 * Controller Class within MVC architecture
-* 
+* Manages junction simulation
+* Import & exports
 */
 
 public class JunctionControler {
@@ -157,17 +158,19 @@ public class JunctionControler {
 	 * Generates a report from the statistics stores and saves to a .txt file
 	 * Outputs the text file to the datafiles directory
 	 * will save over previous file automatically.
+	 * Also outputs the generated report to console.
 	 */
 	public String generateReport() {
-		
+		//Declarations
 		int[] totalv = new int[PhaseTime.size()+1];
 		int total = 0;
 		int p = 1;
-		
+		//Initialisation
 		for (int i : totalv) {
 			totalv[i] = 0;
 		}
 		
+		//Combining wait time
 		int totalTme = 0;
 		for (int s = 0; s < PhaseStats.size(); s++) {
 			totalTme += PhaseStats.get("" + s).WaitTime;
@@ -177,12 +180,13 @@ public class JunctionControler {
 	      FileWriter myWriter = new FileWriter("./DataFiles/Report.txt");
 	      
 	      
-	      
+	      //For Each Phase, works theoretically with any number of phases
 			while ( p <  PhaseTime.size()) {
 				//P is for each Phase , segment Right & straight and left turn lanes
 				// converts to segment
 				Queue <Vehicle> CurrentPhase = Phase.get(""+(p+2)/2);
 				
+				//for each vehicle in the current segment the number of vehicles passed is calculated
 				for (Vehicle v : CurrentPhase) {
 					if(v.Direction.equals("Right") || v.Direction.equals("Straight")) { // Even -- Right & Strait
 						totalv[p] += 1;
@@ -192,6 +196,7 @@ public class JunctionControler {
 						total ++;
 					}
 				}
+				//Formatting and outputting data
 				if(totalv[p] != 0) {
 					System.out.println("p" + p + " : " + totalv[p]);
 					myWriter.write("p" + p + " : " + totalv[p]+"\n");
@@ -211,7 +216,7 @@ public class JunctionControler {
 				}
 				p+=2;
 			};
-	      
+			//Outputting calculated totals
 			System.out.println("Total Emissions : " + CalcTotalEmissions() + "g");
 			System.out.println("Average Wait : " + totalTme/ total + "s" );
 			myWriter.write("Total Emissions : " + CalcTotalEmissions() + "g"+"\n");
@@ -289,7 +294,7 @@ public class JunctionControler {
 		PhaseStats.get("" + p).WaitTime += vTime + curP; 
 		PhaseStats.get("" + p).WaitLength += v.Length;
 		PhaseStats.get("" + p).CrossTime += v.CrossTime;
-		PhaseStats.get(""+p).Emissions += (v.Emission * (PhaseStats.get(""+p).WaitTime / 60 ));
+		PhaseStats.get(""+p).Emissions += v.WaitEmissions(PhaseStats.get(""+p).WaitTime) + v.CrossEmisions();
 	}
 	
 	/*

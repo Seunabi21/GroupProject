@@ -18,6 +18,15 @@ public class Vehicle {
 	/*
 	 * Constructors
 	 */
+	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission, String Segment) {
+		this.ID = ID;
+		this.Type = Type;
+		this.CrossTime = CrossTime;
+		this.Length = Length;
+		this.Emission = Emission;
+		this.Status = "Waiting";
+		this.Segment = Segment;
+	}
 	/*
 	 * Generates a vehicle from a generic object array
 	 * throws a custom error message if the vehicle is incorrect
@@ -39,14 +48,14 @@ public class Vehicle {
 	/*
 	 * Calculates the emissions a car generates to cross the junction
 	 */
-	public int CrossEmisions() {
-		return Emission * (CrossTime / 60);
+	public double CrossEmisions() {
+		return Math.round((Emission * (CrossTime / 60)) * 100.0) / 100.0;
 	}
 	/*
 	 * Calculates the emissions a vehicle generates while waiting an amount of time
 	 */
-	public int WaitEmissions(int wait) {
-		return Emission * (wait / 60);
+	public double WaitEmissions(double wait) {
+		return Math.round((Emission * (wait / 60)) * 100.0) / 100.0;
 	}
 	/*
 	 * Overwrites original to String with a custom version
