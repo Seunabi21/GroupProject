@@ -5,10 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.io.*;  
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
-import java.util.Arrays;
 /**
 * @author Ryan Spowart
 * Controller Class within MVC architecture
@@ -16,31 +13,57 @@ import java.util.Arrays;
 * Import & exports
 */
 
-public class JunctionControler {
+public class JunctionControler implements Runnable{
 
 	HashMap <String, Queue <Vehicle> > Phase; //Stores the phase and queue of vehicles
 	HashMap <String, Statistics> PhaseStats; //Stores the statistics attributed to each phase
 	ArrayList<Integer> PhaseTime; //Stores the time for each phase
-	
+	ArrayList<TimeShare> timeShare;
+	ArrayList<Thread> trafficqueues;
+
 	//Constructor
 	public JunctionControler() {
 		//Initialising variables
 		Phase = new HashMap<>();
 		PhaseStats = new HashMap<String, Statistics>();
 		PhaseTime = new ArrayList<Integer>();
-		
-
+		timeShare = new ArrayList<TimeShare>();
+		trafficqueues = new ArrayList<Thread>();
 		importVehicles();//Importing data from csv
 		importPhases();
+		
 		
 		//Initialising PhaseStats
 		for (int i = 0; i < PhaseTime.size(); i ++) {
 			PhaseStats.put(""+i,new Statistics());
+			timeShare.add(new TimeShare());
 		}
+		
+		makeQueues();
 	}
 	
 	//Methods
+	public void makeQueues() {
+		int i =0;
+		for(i =0; i < 8; i ++) {
+			trafficqueues.add(new Thread(new TrafficQueue(new ArrayList<Vehicle>(Phase.get(String.valueOf(i))),timeShare.get(i))));
+			i++;
+		}
+	}
+	//left is true, right is false
+	public ArrayList<Vehicle> seperateLanes(boolean lane, int segment, ArrayList<Vehicle> vlist ){
+		ArrayList<Vehicle> v = new ArrayList<Vehicle>();
+		for(Vehicle vehicle : vlist) {
+			if(lane && vehicle.Direction.equals("Left")) {
+				v.add(vehicle);
+			}else if (!lane && (vehicle.Direction.equals("right") || vehicle.Direction.equals("Straight"))) {
+				v.add(vehicle);
+			}
+		}
+		return v;
+	}
 	/*
+	 *
 	 * Adds a new vehicle to the system
 	 * Status not required as it will always initially be waiting.
 	 * Validation not included
@@ -346,6 +369,7 @@ public class JunctionControler {
 	 * for Segment Statistics
 	 */
 	public Object[][] segToObj(){
+
 		
 		Object[][] Segments = new Object [4][4];
 		for(int x = 0; x < 4; x++) {	//initialising new generic object
@@ -363,5 +387,30 @@ public class JunctionControler {
 		}
 		
 		return Segments;
+	}
+
+	@Override
+	public void run() {
+		for(int i = 0; i < 4; i ++) {
+			trafficqueues.get(i).start();
+		}
+		
+		//make an array of time share -- done
+		//each traffic queue gets its own time share telling each one the time it can calculate. simest method might pass.
+		for(int i = 0; i < 4; i ++) {
+			timeShare.get(i).put(PhaseTime.get(i));
+			try {
+				Thread.sleep(10*PhaseTime.get(i));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for(int i = 0; i < 4; i ++) {
+			timeShare.get(i).setDone();			
+		}
+		
+		
 	}
 }
