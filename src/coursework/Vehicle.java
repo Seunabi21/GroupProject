@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 * @author Ryan Spowart
 * Models the vehicles used within the application
 */
-public class Vehicle {
+public class Vehicle implements Runnable{
 	
 	String ID;		  // Registration plate equivalent
 	String Type;	  // Car - Truck - Bus
@@ -15,6 +15,8 @@ public class Vehicle {
 	int Emission;	  // Grams of CO2 emitted
 	String Status;	  // Waiting - driving?
 	String Segment;
+	public ShareLight light;
+	int distance;
 	/*
 	 * Constructors
 	 */
@@ -61,7 +63,7 @@ public class Vehicle {
 	 * Overwrites original to String with a custom version
 	 */
 	public String toString() {
-		return ID + " , " + Status + " , " +  Type + " , " + CrossTime + " , " + Length + " , " + Direction + " , " + Emission + "}";
+		return distance + "," + ID + " , " + Status + " , " +  Type + " , " + CrossTime + " , " + Length + " , " + Direction + " , " + Emission + "}";
 	}
 	/*
 	 * returns the Vehicle in the form of an Object array of info.
@@ -108,5 +110,15 @@ public class Vehicle {
 	    	throw new ValidationExeption("Missing Field");
 	    }
 		
+	}
+	@Override
+	public void run() {
+		while(!light.getDone()) {
+			if(distance == 0) {
+				light.put(true);
+			}else{
+				distance -= light.getMove();
+			}
+		}
 	}
 }

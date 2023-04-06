@@ -44,19 +44,27 @@ public class JunctionControler implements Runnable{
 	
 	//Methods
 	public void makeQueues() {
+		System.out.println("Organising vehicles into lanes");
 		int i =0;
+		int seg = 1;
+		boolean lane = true;
 		for(i =0; i < 8; i ++) {
-			trafficqueues.add(new Thread(new TrafficQueue(new ArrayList<Vehicle>(Phase.get(String.valueOf(i))),timeShare.get(i))));
-			i++;
+			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),timeShare.get(i))));
+			System.out.println(i + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
+			lane = !lane;
+			if (lane) {
+				seg ++;
+			}
+			
 		}
 	}
 	//left is true, right is false
-	public ArrayList<Vehicle> seperateLanes(boolean lane, int segment, ArrayList<Vehicle> vlist ){
+	public ArrayList<Vehicle> seperateLanes(boolean lane, ArrayList<Vehicle> vlist ){
 		ArrayList<Vehicle> v = new ArrayList<Vehicle>();
 		for(Vehicle vehicle : vlist) {
 			if(lane && vehicle.Direction.equals("Left")) {
 				v.add(vehicle);
-			}else if (!lane && (vehicle.Direction.equals("right") || vehicle.Direction.equals("Straight"))) {
+			}else if (!lane && (vehicle.Direction.equals("Right") || vehicle.Direction.equals("Straight"))) {
 				v.add(vehicle);
 			}
 		}
@@ -391,26 +399,42 @@ public class JunctionControler implements Runnable{
 
 	@Override
 	public void run() {
-		for(int i = 0; i < 4; i ++) {
+		for(int i = 0; i < 8; i ++) {
 			trafficqueues.get(i).start();
 		}
 		
 		//make an array of time share -- done
 		//each traffic queue gets its own time share telling each one the time it can calculate. simest method might pass.
-		for(int i = 0; i < 4; i ++) {
-			timeShare.get(i).put(PhaseTime.get(i));
+		for(int i = 0; i < 8; i +=2) {
+			timeShare.get(i).put(true);
+			timeShare.get(i+1).put(true);
+			
 			try {
-				Thread.sleep(10*PhaseTime.get(i));
+				Thread.sleep(PhaseTime.get(i));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
+			timeShare.get(i).put(false);
+			timeShare.get(i+1).put(false);
+			
+			while(!timeShare.get(i).getCalcDone() && !timeShare.get(i+1).getCalcDone()) {
+				try {
+					Thread.sleep(100);
+					System.out.println("waiting...");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			timeShare.get(i).setDone();
+			timeShare.get(i+1).setDone();
 		}
 		
 		for(int i = 0; i < 4; i ++) {
 			timeShare.get(i).setDone();			
 		}
-		
+		System.out.println("Simulation Complete");
 		
 	}
 }
