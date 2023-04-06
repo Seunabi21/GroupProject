@@ -41,7 +41,7 @@ public class TimeShare {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Put: " + n);
+		System.out.println("lightState: " + n);
 		empty = false;
 		notifyAll();
 		this.n = n;
@@ -55,7 +55,8 @@ public class TimeShare {
 		return done;
 	}
 	
-	public void setCalcDone() {
+	public synchronized void setCalcDone() {
+		notifyAll();
 		done = true;
 	}
 

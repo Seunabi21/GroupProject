@@ -7,10 +7,10 @@ public class ShareLight {
 	private boolean done;
 	private int qNo;
 	
-	public ShareLight() {
+	public ShareLight(int qNo) {
 		state = "R";
 		move = 0;
-		qNo = 0;
+		this.qNo = qNo;
 		waiting = false;
 		done = false;
 	}
@@ -19,21 +19,40 @@ public class ShareLight {
 	// when waiting over, get number
 	// set empty to true and notify waiting methods
 	public synchronized String get() {
-		System.out.println("Got: " + state);
-		notifyAll();
-		return state;
-	}
-	
-	public synchronized boolean getWaiting() {
-		while (qNo != 0) {
+		while (state.equals("R")) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Got: " + waiting);
-		waiting = false;
+		System.out.println("Got State: " + state);
+		notifyAll();
+		return state;
+	}
+	public synchronized String getWaitG() {
+		while (!state.equals("G")) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Got State: " + state);
+		notifyAll();
+		return state;
+	}
+	
+	
+	public synchronized boolean getWaiting() {
+		while (!waiting && qNo >0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Got waiting: " + waiting);
 		notifyAll();
 		return waiting;
 	}
@@ -55,22 +74,20 @@ public class ShareLight {
 	// when waiting over, put number
 	// set empty to false and notify waiting methods
 	public synchronized void put(String state) {
-		System.out.println("Put: " + state);
+		System.out.println("Put Light: " + state);
 		notifyAll();
 		this.state = state;
 	}
 	
-	public synchronized void put(boolean waiting) {
-		
-		while (waiting) {
+	public synchronized void putWait(boolean waiting) {
+		while (this.waiting) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("Put: " + waiting);
+		System.out.println("Car Waiting: " + waiting);
 		notifyAll();
 		this.waiting = waiting;
 	}
@@ -85,7 +102,7 @@ public class ShareLight {
 			}
 		}
 		
-		System.out.println("Put: " + waiting);
+		System.out.println("Put move: " + move + " "+ qNo);
 		notifyAll();
 		
 		this.move = move;
@@ -97,13 +114,6 @@ public class ShareLight {
 	}
 
 	public synchronized boolean getDone() {
-		while (!done) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 		
 		return done;
 	}

@@ -406,11 +406,12 @@ public class JunctionControler implements Runnable{
 		//make an array of time share -- done
 		//each traffic queue gets its own time share telling each one the time it can calculate. simest method might pass.
 		for(int i = 0; i < 8; i +=2) {
+			System.out.println("------ Phases : " + i +" & " + (i+1) + "-------");
 			timeShare.get(i).put(true);
 			timeShare.get(i+1).put(true);
 			
 			try {
-				Thread.sleep(PhaseTime.get(i));
+				Thread.sleep(100*PhaseTime.get(i));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -420,8 +421,7 @@ public class JunctionControler implements Runnable{
 			
 			while(!timeShare.get(i).getCalcDone() && !timeShare.get(i+1).getCalcDone()) {
 				try {
-					Thread.sleep(100);
-					System.out.println("waiting...");
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

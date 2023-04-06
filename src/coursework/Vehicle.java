@@ -114,11 +114,20 @@ public class Vehicle implements Runnable{
 	@Override
 	public void run() {
 		while(!light.getDone()) {
-			if(distance == 0) {
-				light.put(true);
-			}else{
-				distance -= light.getMove();
+			if(light.getWaitG().equals("G")) {
+				if(distance == 0) {
+					light.putWait(true);
+				}else{
+					distance -= light.getMove();
+				}
 			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 }

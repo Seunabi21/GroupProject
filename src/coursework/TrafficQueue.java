@@ -16,7 +16,7 @@ public class TrafficQueue implements Runnable{
 		this.Vehicles =new LinkedList<>();
 		this.Waiting = new LinkedList<>();
 		Crossed = new LinkedList<>();
-		light = new ShareLight();
+		light = new ShareLight(Vehicles.size());
 		int distance = 0;
 		for(Vehicle v : Vehicles) {
 			v.distance = distance;
@@ -42,6 +42,7 @@ public class TrafficQueue implements Runnable{
 				CalcPhase();
 			}
 		}
+		light.setDone();
 	}
 	
 	public void CalcPhase() {
@@ -49,25 +50,24 @@ public class TrafficQueue implements Runnable{
 			light.put("A");
 			Thread.sleep(100);
 			light.put("G");
-			
-			while(timeshare.get()) {
-				System.out.println("IRAN");
+			System.out.println(Waiting);
+			Vehicle v = null;
+			while(timeshare.get() && Waiting.size()>0) {
 				if (light.getWaiting() == true) {
 					Vehicles.remove();
-					Vehicle v = Waiting.remove();
-					light.putMove(v.Length, Vehicles.size());
-					Thread.sleep(10*v.CrossTime);
+					v = Waiting.poll();
+					System.out.println(v);
 					Crossed.add(v);
+					System.out.println(Crossed);
+					light.putMove(v.Length, Vehicles.size());
+					light.putWait(false);
 				}
-				Thread.sleep(100);
-				
 			}
-			
 			light.put("A");
 			Thread.sleep(100);
 			light.put("R");
+			System.out.println(Crossed);
 			timeshare.setCalcDone();
-			System.out.println(Waiting);
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
