@@ -49,7 +49,7 @@ public class JunctionControler implements Runnable{
 		int seg = 1;
 		boolean lane = true;
 		for(i =0; i < 8; i ++) {
-			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),timeShare.get(i))));
+			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),timeShare.get(i),PhaseStats.get(String.valueOf(i)))));
 			System.out.println(i + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
 			lane = !lane;
 			if (lane) {
@@ -100,7 +100,7 @@ public class JunctionControler implements Runnable{
 			sc.useDelimiter(",");   //sets the delimiter pattern 
 			
 			while (sc.hasNextLine())  //returns a boolean value  
-			{  
+			{   
 				//Splitting csv line into an array
 				String[] csvRow = sc.nextLine().split(",");
 				try {
@@ -409,13 +409,12 @@ public class JunctionControler implements Runnable{
 			System.out.println("------ Phases : " + i +" & " + (i+1) + "-------");
 			timeShare.get(i).put(true);
 			timeShare.get(i+1).put(true);
-			
 			try {
 				Thread.sleep(100*PhaseTime.get(i));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		
+
 			timeShare.get(i).put(false);
 			timeShare.get(i+1).put(false);
 			
@@ -429,12 +428,15 @@ public class JunctionControler implements Runnable{
 			}
 			timeShare.get(i).setDone();
 			timeShare.get(i+1).setDone();
+			for(TimeShare t : timeShare) {
+				t.addTime(PhaseTime.get(i));
+			}
 		}
 		
 		for(int i = 0; i < 4; i ++) {
 			timeShare.get(i).setDone();			
 		}
 		System.out.println("Simulation Complete");
-		
+		System.out.println(PhaseStats);
 	}
 }

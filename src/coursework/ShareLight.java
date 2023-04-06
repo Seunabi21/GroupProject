@@ -1,7 +1,12 @@
 package coursework;
+/**
+* @author Ryan Spowart
+* Share Object
+* contains data transfer from Traffic queue to Vehicle threads
+*/
 
 public class ShareLight {
-	private String state;
+	public String state;
 	private int move;
 	private boolean waiting;
 	private boolean done;
@@ -54,7 +59,8 @@ public class ShareLight {
 		}
 		System.out.println("Got waiting: " + waiting);
 		notifyAll();
-		return waiting;
+		waiting = false;
+		return true;
 	}
 	
 	public synchronized int getMove() {
@@ -67,6 +73,7 @@ public class ShareLight {
 		}
 		System.out.println("Moving: " + move);
 		notifyAll();
+		qNo -=1;
 		return move;
 	}
 
@@ -90,6 +97,9 @@ public class ShareLight {
 		System.out.println("Car Waiting: " + waiting);
 		notifyAll();
 		this.waiting = waiting;
+	}
+	public void resetWait() {
+		waiting = false;
 	}
 	
 	public synchronized void putMove(int move, int qNo) {

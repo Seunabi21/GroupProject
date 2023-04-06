@@ -2,11 +2,13 @@ package coursework;
 
 public class TimeShare {
 	private boolean n;
-	public int ID;
+	private int timeUntil;
 	private boolean empty;
 	private boolean done;
 	private boolean calcDone;
+	
 	public TimeShare() {
+		timeUntil = 0;
 		n = false;
 		empty = true;
 		done = false;
@@ -34,19 +36,29 @@ public class TimeShare {
 	// set empty to false and notify waiting methods
 	public synchronized void put(boolean n) {
 
-		while (!empty) {
+		/*while (!empty) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
-		System.out.println("lightState: " + n);
+		}*/
+		System.out.println("putlightState: " + n);
 		empty = false;
 		notifyAll();
 		this.n = n;
 	}
-
+	
+	public synchronized void addTime(int t) {
+		System.out.println("putAddedTime: " + t);
+		empty = false;
+		notifyAll();
+		this.timeUntil = t;
+	}
+	
+	public int getTime() {
+		return timeUntil;
+	}
 	public void setDone() {
 		done = true;
 	}

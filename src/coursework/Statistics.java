@@ -19,6 +19,19 @@ public class Statistics {
 		Emissions = 0;
 		
 	}
+	public void addWait(int WaitTime) {
+		this.WaitTime += WaitTime;
+	}
+	public void addLength(int WaitLength) {
+		this.WaitLength += WaitLength;
+	}
+	public void addCrosstime(int CrossTime) {
+		this.CrossTime += CrossTime;
+	}
+	public void addEmissions(int Emissions) {
+		this.Emissions += Emissions;
+	}
+	
 	public String toString() {
 		return " " + WaitTime + "s | " + WaitLength + "m | " +  CrossTime + "s | " + Emissions + "g \n";
 		

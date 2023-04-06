@@ -28,6 +28,19 @@ public class Vehicle implements Runnable{
 		this.Emission = Emission;
 		this.Status = "Waiting";
 		this.Segment = Segment;
+
+	}
+	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission, String Segment,ShareLight light,int Distance) {
+		this.ID = ID;
+		this.Type = Type;
+		this.CrossTime = CrossTime;
+		this.Length = Length;
+		this.Emission = Emission;
+		this.Status = "Waiting";
+		this.Segment = Segment;
+		this.light = light;
+		this.distance = Distance;
+
 	}
 	/*
 	 * Generates a vehicle from a generic object array
@@ -69,7 +82,7 @@ public class Vehicle implements Runnable{
 	 * returns the Vehicle in the form of an Object array of info.
 	 */
 	public Object[] toObject() {
-		Object[] output = {ID,Type,CrossTime,Direction,Length,Emission,Status,Segment};
+		Object[] output = {ID,Type,CrossTime,Direction,Length,Emission,Status,Segment,light};
 		return output;
 	}
 	/*
@@ -111,10 +124,13 @@ public class Vehicle implements Runnable{
 	    }
 		
 	}
+	
+	
 	@Override
 	public void run() {
 		while(!light.getDone()) {
 			if(light.getWaitG().equals("G")) {
+				System.out.println(distance);
 				if(distance == 0) {
 					light.putWait(true);
 				}else{
