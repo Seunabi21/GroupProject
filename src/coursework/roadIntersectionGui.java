@@ -28,8 +28,8 @@ import javax.swing.table.TableColumnModel;
  * 
  */
 public class roadIntersectionGui extends javax.swing.JFrame {
-	static JunctionControler junc;
-
+	static Thread juncCont;
+	static UIShare junc;
     /**
      * Creates new form roadIntersectionGui
      * @throws java.io.FileNotFoundException
@@ -466,7 +466,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     }
     //Starts Simulation
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
-    	junc.CalcPhases();
+    	juncCont.run();
     	update();
         cancelButton.setText("Continue");
     }//GEN-LAST:event_exitButtonActionPerformed
@@ -488,7 +488,7 @@ public class roadIntersectionGui extends javax.swing.JFrame {
     	}
     	System.out.println(vehicle.toString());
     	vehicle.set(6, vehicle.get(7)); //adjusting format.
-    	junc.AddVehicle(vehicle.toArray());
+    	//junc.AddVehicle(vehicle.toArray());
     	update();
     }//GEN-LAST:event_exitButtonMouseEntered
     
@@ -519,7 +519,10 @@ public class roadIntersectionGui extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-        	junc = new JunctionControler();
+        	junc = new UIShare();/**NEED TO WORK OUT HOW TO GET UI TO UPDATE FROM THIS*/ 
+        	juncCont = new Thread(new JunctionControler(junc));
+        	juncCont.start();		
+        	
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -536,11 +539,11 @@ public class roadIntersectionGui extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(roadIntersectionGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new roadIntersectionGui().setVisible(true);
+
             }
         });
     }

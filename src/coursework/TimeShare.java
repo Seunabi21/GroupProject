@@ -1,11 +1,20 @@
 package coursework;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
+/**
+* @author Ryan Spowart
+* Share Object
+* contains data transfer from the JunctionController to the individual traffic Queues
+*/
 public class TimeShare {
 	private boolean n;
 	private int timeUntil;
 	private boolean empty;
 	private boolean done;
 	private boolean calcDone;
+	private Queue<Vehicle> q;
 	
 	public TimeShare() {
 		timeUntil = 0;
@@ -13,6 +22,7 @@ public class TimeShare {
 		empty = true;
 		done = false;
 		calcDone = false;
+		q =new LinkedList<>();
 	}
 
 	// wait while no number
@@ -30,7 +40,12 @@ public class TimeShare {
 		empty = true;
 		return n;
 	}
-
+	public synchronized void putVehicles(Queue<Vehicle> q) {
+		this.q = q;
+	}
+	public synchronized Queue<Vehicle> getVehicles() {
+		return q;
+	}
 	// wait while number there
 	// when waiting over, put number
 	// set empty to false and notify waiting methods

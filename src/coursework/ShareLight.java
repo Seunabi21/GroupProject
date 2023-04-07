@@ -6,12 +6,15 @@ package coursework;
 */
 
 public class ShareLight {
-	public String state;
-	private int move;
-	private boolean waiting;
-	private boolean done;
-	private int qNo;
+	public String state; //state if the light- R | A | G
+	private int move; // how far cars can move forward
+	private boolean waiting; //whether a car is waiting for the junction to be clear
+	private boolean done; //whether junction calculations are compelte for the moment
+	private int qNo; //number of cars present in queue
 	
+	/*
+	 * Constructor
+	 */
 	public ShareLight(int qNo) {
 		state = "R";
 		move = 0;
@@ -35,6 +38,8 @@ public class ShareLight {
 		notifyAll();
 		return state;
 	}
+	
+	//Allows a car to wait on the light to turn green
 	public synchronized String getWaitG() {
 		while (!state.equals("G")) {
 			try {
@@ -48,7 +53,7 @@ public class ShareLight {
 		return state;
 	}
 	
-	
+	//returns if a car is waiting to cross the junction
 	public synchronized boolean getWaiting() {
 		while (!waiting && qNo >0) {
 			try {
@@ -62,7 +67,7 @@ public class ShareLight {
 		waiting = false;
 		return true;
 	}
-	
+	//gets how far car can move
 	public synchronized int getMove() {
 		while (move == 0) {
 			try {
@@ -77,15 +82,13 @@ public class ShareLight {
 		return move;
 	}
 
-	// wait while number there
-	// when waiting over, put number
-	// set empty to false and notify waiting methods
+	//sets the state of the light
 	public synchronized void put(String state) {
 		System.out.println("Put Light: " + state);
 		notifyAll();
 		this.state = state;
 	}
-	
+	//sets whether the next vehicle is waiting
 	public synchronized void putWait(boolean waiting) {
 		while (this.waiting) {
 			try {
@@ -98,13 +101,15 @@ public class ShareLight {
 		notifyAll();
 		this.waiting = waiting;
 	}
+	//resets the wait to false
 	public void resetWait() {
 		waiting = false;
 	}
 	
+	//sets how far cars can move and the number of cars to anticipate receiving this.
 	public synchronized void putMove(int move, int qNo) {
 		
-		while (qNo != 0) {
+		while (qNo != 0) {	//ensures that cars cant be told to move further until they have all moved up
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -118,11 +123,11 @@ public class ShareLight {
 		this.move = move;
 		this.qNo = qNo;
 	}
-	
+	//notifies of completion
 	public void setDone() {
 		done = true;
 	}
-
+	//returns whether the cycle is complete.
 	public synchronized boolean getDone() {
 		
 		return done;

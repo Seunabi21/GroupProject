@@ -20,9 +20,10 @@ public class JunctionControler implements Runnable{
 	ArrayList<Integer> PhaseTime; //Stores the time for each phase
 	ArrayList<TimeShare> timeShare;
 	ArrayList<Thread> trafficqueues;
-
+	UIShare uiContent;
 	//Constructor
-	public JunctionControler() {
+	public JunctionControler(UIShare uiContent) {
+		this.uiContent = uiContent;
 		//Initialising variables
 		Phase = new HashMap<>();
 		PhaseStats = new HashMap<String, Statistics>();
@@ -40,6 +41,7 @@ public class JunctionControler implements Runnable{
 		}
 		
 		makeQueues();
+		this.uiContent.setUI(Phase, PhaseStats, PhaseTime);
 	}
 	
 	//Methods
@@ -396,15 +398,15 @@ public class JunctionControler implements Runnable{
 		
 		return Segments;
 	}
-
+	//What happens when the juncntion controller Start or Run method is called.
 	@Override
 	public void run() {
 		for(int i = 0; i < 8; i ++) {
 			trafficqueues.get(i).start();
 		}
-		
+		int segment = 1;
 		//make an array of time share -- done
-		//each traffic queue gets its own time share telling each one the time it can calculate. simest method might pass.
+		//each traffic queue gets its own time share telling each one the time it can calculate.
 		for(int i = 0; i < 8; i +=2) {
 			System.out.println("------ Phases : " + i +" & " + (i+1) + "-------");
 			timeShare.get(i).put(true);
@@ -431,12 +433,20 @@ public class JunctionControler implements Runnable{
 			for(TimeShare t : timeShare) {
 				t.addTime(PhaseTime.get(i));
 			}
+			System.out.println(Phase.keySet() +""+ (i+2/2));
+			Phase.get("" + segment).clear();
+			Phase.get("" + segment).addAll(timeShare.get(i).getVehicles());
+			Phase.get("" + segment).addAll(timeShare.get(i+1).getVehicles());
+			segment ++;
+			
+			uiContent.setUI(Phase, PhaseStats, PhaseTime);
 		}
 		
 		for(int i = 0; i < 4; i ++) {
 			timeShare.get(i).setDone();			
 		}
-		System.out.println("Simulation Complete");
+		
+		System.out.println("-------Simulation Complete-------");
 		System.out.println(PhaseStats);
 	}
 }
