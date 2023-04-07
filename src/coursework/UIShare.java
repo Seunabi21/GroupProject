@@ -19,7 +19,7 @@ public class UIShare {
 		update = false;
 	}
 	
-	public void setUI(HashMap <String, Queue <Vehicle> > Phase,HashMap <String, Statistics> PhaseStats,ArrayList<Integer> PhaseTime) {
+	public synchronized void setUI(HashMap <String, Queue <Vehicle> > Phase,HashMap <String, Statistics> PhaseStats,ArrayList<Integer> PhaseTime) {
 		this.Phase = Phase;
 		this.PhaseStats = PhaseStats;
 		this.PhaseTime = PhaseTime;
