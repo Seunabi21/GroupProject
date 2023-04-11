@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
@@ -35,7 +36,7 @@ public class VView extends JFrame{
 	private VModel VM;
 	private JTable vehicleTable, phaseTable, statisticsTable, upstatisticsTable, upvehicleTable;
     private VModel vehicleModel, phaseModel, statisticsModel, upvehicleModel;
-    private VModel vehUp, statUp;
+    private DefaultTableModel vehUp, statUp;
     JScrollPane vehPane = new JScrollPane();
     JScrollPane upPane = new JScrollPane();
     JScrollPane phPane = new JScrollPane();
@@ -412,7 +413,7 @@ public class VView extends JFrame{
     	String [] vehicleColumnNames = {
     			"VEHICLE", "TYPE", "CROSSING TIME", "DIRECTION", "LENGTH", "EMISSION", "STATUS", "SEGMENT"
         	};
-    	vehUp = new VModel(data1, vehicleColumnNames);
+    	vehUp = new DefaultTableModel(data1, vehicleColumnNames);
     	vehicleTable.setModel(vehUp);
     }
     
@@ -420,7 +421,7 @@ public class VView extends JFrame{
     	String [] statColumnNames = {
             	"SEGMENT", "WAITING TIME", "WAITING LENGTH", "CROSS TIME"
         	};
-    	statUp = new VModel(data1, statColumnNames);
+    	statUp = new DefaultTableModel(data1, statColumnNames);
     	statisticsTable.setModel(statUp);
     }
     

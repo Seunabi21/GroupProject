@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,7 +39,9 @@ public class VController implements Runnable {
 	ArrayList<Thread> trafficqueues; //Stores a buffer of traffic queues
 	boolean AddVehicle = false; //whether there is a vehicle to be added to a queue
 	boolean exit = false; //whether to exit the program
-	private VView v;
+	private VView v; // The view class
+	public ReportLog reportLog = ReportLog.getInstance();
+	
 	
 	//Constructor
 	public VController(){
@@ -52,12 +56,15 @@ public class VController implements Runnable {
 		importPhases();
 		
 		//Initialising PhaseStats
-		for (int i = 0; i < PhaseTime.size(); i ++) {
+		for (int i = 0; i < PhaseTime.size(); i++) {
 			PhaseStats.put(""+i,new statistics());
 			QShare.add(new QueueShare());
 		}
+		
 		//creating queues of traffic from input data
+//		randomVehicles();
 		makeQueues();
+		
 		
 		//Initialising gui
 		v = new VView(vehToObj(), phaseToObj(), segToObj());
@@ -76,7 +83,7 @@ public class VController implements Runnable {
 		boolean lane = true;
 		for(i =0; i < 8; i ++) {
 			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),QShare.get(i),PhaseStats.get(String.valueOf(i)))));
-			System.out.println(i + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
+			System.out.println("Phase"+(i+1) + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
 			lane = !lane;
 			if (lane) {
 				seg ++;
@@ -135,6 +142,7 @@ public class VController implements Runnable {
 		Vehicle tmpVeh;
 		try {
 			System.out.println(" Beginning Vehicle File Import.");
+			reportLog.log("Beginning Vehicle File Import.");
 			sc = new Scanner(new File("./DataFiles/Vehicles.csv"));
 			sc.useDelimiter(",");   //sets the delimiter pattern 
 			
@@ -164,6 +172,7 @@ public class VController implements Runnable {
 			}   
 			
 			System.out.println(Phase);
+			reportLog.log(" File Import Complete.");
 			System.out.println(" File Import Complete.");
 			sc.close();  //closes the scanner  
 			
@@ -180,6 +189,7 @@ public class VController implements Runnable {
 		Scanner sc;
 		try {
 			System.out.println(" Beginning Phase File Import.");
+			reportLog.log(" Beginning Phase File Import.");
 			sc = new Scanner(new File("./DataFiles/Phases.csv"));
 			sc.useDelimiter(",");   //sets the delimiter pattern 
 			
@@ -213,6 +223,7 @@ public class VController implements Runnable {
 			}
 			
 			System.out.println(PhaseTime);
+			reportLog.log("File Import Complete.");
 			System.out.println(" File Import Complete.");
 			sc.close();  //closes the scanner  
 			//Printing error stacktraces
@@ -290,6 +301,8 @@ public class VController implements Runnable {
 			//Outputting calculated totals
 			System.out.println("Total Emissions : " + CalcTotalEmissions() + "g");
 			System.out.println("Average Wait : " + totalTme/ total + "s" );
+			reportLog.log("Total Emissions : " + CalcTotalEmissions() + "g"+"\n");
+			reportLog.log("Average Wait : " + totalTme/ total + "s" +"\n");
 			myWriter.write("Total Emissions : " + CalcTotalEmissions() + "g"+"\n");
 			myWriter.write("Average Wait : " + totalTme/ total + "s" +"\n");
 
@@ -381,7 +394,7 @@ public class VController implements Runnable {
 				trafficqueues.get(i).start();
 			}
 			
-			
+		
 			
 			while(exit == false) {
 				int segment = 1;
@@ -397,6 +410,7 @@ public class VController implements Runnable {
 				//each traffic queue gets its own time share telling each one the time it can calculate.
 				for(int i = 0; i < 8 ; i +=2) {
 					System.out.println("------ Phases : " + (i+1) +" & " + (i+2) + "-------");
+					reportLog.log("------ Phases : " + (i+1) +" & " + (i+2) + "-------");
 					QShare.get(i).put(true);
 					QShare.get(i+1).put(true);
 					try {
@@ -463,11 +477,8 @@ public class VController implements Runnable {
 				e.printStackTrace();
 			}
 			
-//			UPDATED CO VALUE
-           
-            
             v.updateView(vehToObj(), segToObj());
-			
+            reportLog.log(""+v.getVehicleT()+"Added");
 			System.out.println(CalcTotalEmissions());
         }
 	}
@@ -497,7 +508,7 @@ public class VController implements Runnable {
     	v.getCo().setText(CalcTotalEmissions()+"g");   
 	}
 	
-	private void randomVehicles() {
+	public void randomVehicles() {
 		String vehicleID = "null";
 		String vehicleType = "null";
 		String crossTi = "0";
@@ -588,10 +599,10 @@ public class VController implements Runnable {
 			
 			try {
 				AddVehicle(newVehicle);
+				reportLog.log(""+vehicleID+" has been added");
 			} catch (DuplicateIdException e) {
 				e.printStackTrace();
-			}
-		
+			}		
 	}
 
 	

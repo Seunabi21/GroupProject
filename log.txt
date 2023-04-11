@@ -1,0 +1,16 @@
+Beginning Vehicle File Import.
+ File Import Complete.
+ Beginning Phase File Import.
+File Import Complete.
+------ Phases : 1 & 2-------
+Traffic StateG
+Traffic StateG
+Traffic StateG
+Traffic StateG
+Traffic StateG
+------ Phases : 3 & 4-------
+Traffic StateG
+Traffic StateG
+Traffic StateG
+Traffic StateG
+Traffic StateG

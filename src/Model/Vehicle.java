@@ -2,6 +2,7 @@ package Model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import controller.ReportLog;
 import view.ValidationExeption;
 
 
@@ -22,6 +23,7 @@ public class Vehicle implements Runnable {
 	String Segment;
 	VehicleShare vShare;
 	int distance;
+	public ReportLog reportLog = ReportLog.getInstance();
 	
 	/*
 	 * Constructors
@@ -105,30 +107,38 @@ public class Vehicle implements Runnable {
 		    boolean matchFound = matcher.find();
 		    //Checking regex match
 	    	if(matchFound || ((String)Vehicle[0]).isEmpty() ) {
-				throw new ValidationExeption("Number Plate Incorrect");
+	    		reportLog.log("Number Plate Incorrect");
+	    		throw new ValidationExeption("Number Plate Incorrect");
 			//Type Validation
 			}else if(!((String)Vehicle[1]).equals("CAR") && !((String)Vehicle[1]).equals("TRUCK") && !((String)Vehicle[1]).equals("BUS") && ((String)Vehicle[1]).isEmpty()  ) {
+				reportLog.log("Car Type Incorrect");
 				throw new ValidationExeption("Car Type Incorrect");
 			//Cross Time Validation
 			}else if((Integer.parseInt((String) Vehicle[2]) < 1) || (Integer.parseInt((String) Vehicle[2]) > 60)) {
+				reportLog.log("Invalid Cross Time");
 				throw new ValidationExeption("Invalid Cross Time");
 			//Direction Validation
 			}else if(!((String)Vehicle[3]).equals("Left") && !((String)Vehicle[3]).equals("Right") && !((String)Vehicle[3]).equals("Straight")) {
+				reportLog.log("Invalid Direction");
 				throw new ValidationExeption("Invalid Direction");
 			//Length Validation
 			}else if((Integer.parseInt((String) Vehicle[4]) < 1) || (Integer.parseInt((String) Vehicle[4]) > 25)) {
+				reportLog.log("Invalid Car Length");
 				throw new ValidationExeption("Invalid Car Length");
 			//Emissions
 			}else if((Integer.parseInt((String) Vehicle[5]) < 1) || (Integer.parseInt((String) Vehicle[5]) > 50)) {
+				reportLog.log("Invalid Car Emission");
 				throw new ValidationExeption("Invalid Car Emission");
 			//Phase
 			}else if((Integer.parseInt((String) Vehicle[6]) < 1) || (Integer.parseInt((String) Vehicle[6]) > 4)) {
+				reportLog.log("Invalid Phase");
 				throw new ValidationExeption("Invalid Phase");
 			}
 	    //Other Possible Exceptions
 	    }catch(NumberFormatException e) {
 	    	throw new ValidationExeption("Invalid Data Format");
 	    }catch(NullPointerException e) {
+	    	reportLog.log("Missing Field");
 	    	throw new ValidationExeption("Missing Field");
 	    }
 		

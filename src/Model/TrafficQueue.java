@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import controller.ReportLog;
 /**
 * @author Ryan Spowart
 * Threaded Object
@@ -16,6 +18,7 @@ public class TrafficQueue implements Runnable{
 	private QueueShare qShare; //Data transfer from junction controller
 	private VehicleShare light; //Data transfer to stored vehicle threads
 	private statistics stats; //tracks statistics
+	public ReportLog reportLog = ReportLog.getInstance();
 	
 	/*
 	 * Constructor
@@ -33,12 +36,12 @@ public class TrafficQueue implements Runnable{
 		int distance = 0;
 		for(Vehicle v : Vehicles) {
 			this.Vehicles.add(new Thread(new Vehicle(v.getID(),v.Type,v.getCrossTime(),v.getLength(),v.getDirection(),v.Emission,v.Segment,light,distance)));
-			System.out.println(v.getDirection());
+//			System.out.println(v.getDirection());
 			Waiting.add(new Vehicle(v.getID(),v.Type,v.getCrossTime(),v.getLength(),v.getDirection(),v.Emission,v.Segment,light,distance));
 			distance += v.getLength();
 		}
 		
-		System.out.println(distance);
+//		System.out.println(distance);
 		stats.addLength(distance);
 	}
 	/*
@@ -70,7 +73,7 @@ public class TrafficQueue implements Runnable{
 	 */
 	@Override
 	public void run() {
-		System.out.println("Waiting " + Waiting);
+//		System.out.println("Cars Waiting in each Phase " + Waiting);
 		for (Thread t : this.Vehicles) {	//starting each of the individual vehicle threads no point starting them before they are needed
 				t.start();
 		}

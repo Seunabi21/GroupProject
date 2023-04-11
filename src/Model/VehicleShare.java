@@ -1,4 +1,7 @@
 package Model;
+
+import controller.ReportLog;
+
 /**
 * @author Ryan Spowart
 * Share Object
@@ -11,6 +14,7 @@ public class VehicleShare {
 	private boolean waiting; //whether a car is waiting for the junction to be clear
 	private boolean done; //whether junction calculations are compelte for the moment
 	private int qNo; //number of cars present in queue
+	public ReportLog reportLog = ReportLog.getInstance();
 	
 	/*
 	 * Constructor
@@ -49,6 +53,7 @@ public class VehicleShare {
 			}
 		}
 		System.out.println("Got State: " + state);
+		reportLog.log("Traffic State" + state);
 		notifyAll();
 		return state;
 	}
