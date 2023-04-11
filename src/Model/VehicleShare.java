@@ -53,7 +53,7 @@ public class VehicleShare {
 			}
 		}
 		System.out.println("Got State: " + state);
-		reportLog.log("Traffic State" + state);
+		reportLog.log("Traffic State " + state);
 		notifyAll();
 		return state;
 	}

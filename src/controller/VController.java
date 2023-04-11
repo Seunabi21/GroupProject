@@ -1,5 +1,10 @@
 package controller;
 
+/* @author Ryan, Abiodun Oluwaseun
+ * Controls the intersection and controls the program
+ * 
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -78,12 +83,14 @@ public class VController implements Runnable {
 	 */
 	public void makeQueues() {
 		System.out.println("Organising vehicles into lanes");
+		reportLog.log("Organising vehicles into lanes");
 		int i =0;
 		int seg = 1;
 		boolean lane = true;
 		for(i =0; i < 8; i ++) {
 			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),QShare.get(i),PhaseStats.get(String.valueOf(i)))));
 			System.out.println("Phase"+(i+1) + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
+			reportLog.log("Phase"+(i+1) + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
 			lane = !lane;
 			if (lane) {
 				seg ++;
@@ -393,19 +400,17 @@ public class VController implements Runnable {
 			for(int i = 0; i < 8; i ++) {
 				trafficqueues.get(i).start();
 			}
-			
-		
-			
+				
 			while(exit == false) {
 				int segment = 1;
 				
+				makeQueues();	
 				//Initialising PhaseStats
-//				for (int i = 0; i < PhaseTime.size(); i ++) {
-//					PhaseStats.put(""+i,new statistics());
-//					QShare.add(new QueueShare());
-//				}
-//				
-//				makeQueues();
+				for (int i = 0; i < PhaseTime.size(); i ++) {
+					PhaseStats.put(""+i,new statistics());
+					QShare.add(new QueueShare());
+				}
+				
 				//make an array of time share -- done
 				//each traffic queue gets its own time share telling each one the time it can calculate.
 				for(int i = 0; i < 8 ; i +=2) {
@@ -491,6 +496,7 @@ public class VController implements Runnable {
 		    	generateReport();
 		    	System.exit(0);
 		    }
+		    reportLog.close();
         }
 	}
 	

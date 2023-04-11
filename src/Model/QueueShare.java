@@ -3,8 +3,10 @@ package Model;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import controller.ReportLog;
+
 /**
-* @author Ryan Spowart
+* @author Ryan Spowart, Abiodun Oluwaseun
 * Share Object
 * contains data transfer from the JunctionController to the individual traffic Queues
 */
@@ -15,6 +17,7 @@ public class QueueShare {
 	private boolean calcDone;	//tracks when the calculations are complete
 	private Queue<Vehicle> q;	//list of vehicles for passing back to controller when needed
 	private Queue<Vehicle> vAdded; //list of vehcles to be added, allows for the transfer of meny vehicles at once.
+	public ReportLog report = ReportLog.getInstance();
 	
 	//Constructor
 	public QueueShare() {
@@ -66,6 +69,7 @@ public class QueueShare {
 	public synchronized void put(boolean n) {
 
 		System.out.println("putlightState: " + n);
+		report.log("Changing Traffic Light" +n);
 		notifyAll();
 		this.LightState = n;
 	}

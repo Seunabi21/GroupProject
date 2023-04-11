@@ -125,6 +125,7 @@ public class TrafficQueue implements Runnable{
 			light.put("R");
 			System.out.println("Waiting :" + Waiting);
 			System.out.println("Crossed :" + Crossed);
+			reportLog.log("Vehicles Crossed " + Crossed);
 			qShare.putVehicles(getVehicles());
 			qShare.put(false);
 			

@@ -1,0 +1,370 @@
+2023-04-11 20:06:58 Beginning Vehicle File Import.
+2023-04-11 20:06:58  File Import Complete.
+2023-04-11 20:06:58  Beginning Phase File Import.
+2023-04-11 20:06:58 File Import Complete.
+2023-04-11 20:06:58 Organising vehicles into lanes
+2023-04-11 20:06:58 Phase1 - [BD51SMR , Waiting , CAR , 3 , 5 , Left , 15}, SK15CVC , Waiting , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:06:58 Phase2 - []
+2023-04-11 20:06:58 Phase3 - []
+2023-04-11 20:06:58 Phase4 - [AC67SAE , Waiting , CAR , 5 , 4 , Right , 15}, TREE345 , Waiting , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:06:58 Phase5 - [BR33DED , Waiting , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:06:58 Phase6 - [SA11LLY , Waiting , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:06:58 Phase7 - []
+2023-04-11 20:06:58 Phase8 - [GR33NNN , Waiting , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:06:58 Organising vehicles into lanes
+2023-04-11 20:06:58 Phase1 - [BD51SMR , Waiting , CAR , 3 , 5 , Left , 15}, SK15CVC , Waiting , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:06:58 Phase2 - []
+2023-04-11 20:06:58 Phase3 - []
+2023-04-11 20:06:58 Phase4 - [AC67SAE , Waiting , CAR , 5 , 4 , Right , 15}, TREE345 , Waiting , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:06:58 Phase5 - [BR33DED , Waiting , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:06:58 Phase6 - [SA11LLY , Waiting , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:06:58 Phase7 - []
+2023-04-11 20:06:58 Phase8 - [GR33NNN , Waiting , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:06:58 ------ Phases : 1 & 2-------
+2023-04-11 20:06:58 Changing Traffic Lighttrue
+2023-04-11 20:06:58 Changing Traffic Lighttrue
+2023-04-11 20:06:59 Traffic State G
+2023-04-11 20:06:59 Traffic State G
+2023-04-11 20:06:59 Traffic State G
+2023-04-11 20:06:59 Traffic State G
+2023-04-11 20:06:59 Traffic State G
+2023-04-11 20:07:00 Vehicles Crossed [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:07:00 Changing Traffic Lightfalse
+2023-04-11 20:07:00 Changing Traffic Lightfalse
+2023-04-11 20:07:00 Changing Traffic Lightfalse
+2023-04-11 20:07:00 ------ Phases : 3 & 4-------
+2023-04-11 20:07:00 Changing Traffic Lighttrue
+2023-04-11 20:07:00 Changing Traffic Lighttrue
+2023-04-11 20:07:01 Traffic State G
+2023-04-11 20:07:01 Traffic State G
+2023-04-11 20:07:01 Traffic State G
+2023-04-11 20:07:01 Traffic State G
+2023-04-11 20:07:01 Traffic State G
+2023-04-11 20:07:02 Vehicles Crossed [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:07:02 Changing Traffic Lightfalse
+2023-04-11 20:07:04 NWR43BA has been added
+2023-04-11 20:07:06 Changing Traffic Lightfalse
+2023-04-11 20:07:06 Changing Traffic Lightfalse
+2023-04-11 20:07:06 ------ Phases : 5 & 6-------
+2023-04-11 20:07:06 Changing Traffic Lighttrue
+2023-04-11 20:07:06 Changing Traffic Lighttrue
+2023-04-11 20:07:07 Traffic State G
+2023-04-11 20:07:07 Traffic State G
+2023-04-11 20:07:07 Traffic State G
+2023-04-11 20:07:07 Traffic State G
+2023-04-11 20:07:07 Traffic State G
+2023-04-11 20:07:07 Traffic State G
+2023-04-11 20:07:07 Vehicles Crossed [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:07:07 Changing Traffic Lightfalse
+2023-04-11 20:07:08 Vehicles Crossed [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:07:08 Changing Traffic Lightfalse
+2023-04-11 20:07:10 TCD31WD has been added
+2023-04-11 20:07:10 Changing Traffic Lightfalse
+2023-04-11 20:07:10 Changing Traffic Lightfalse
+2023-04-11 20:07:10 ------ Phases : 7 & 8-------
+2023-04-11 20:07:10 Changing Traffic Lighttrue
+2023-04-11 20:07:10 Changing Traffic Lighttrue
+2023-04-11 20:07:11 Traffic State G
+2023-04-11 20:07:11 Traffic State G
+2023-04-11 20:07:11 Traffic State G
+2023-04-11 20:07:12 Vehicles Crossed [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:07:12 Changing Traffic Lightfalse
+2023-04-11 20:07:15 Changing Traffic Lightfalse
+2023-04-11 20:07:15 Changing Traffic Lightfalse
+2023-04-11 20:07:15 Organising vehicles into lanes
+2023-04-11 20:07:15 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:07:15 Phase2 - []
+2023-04-11 20:07:15 Phase3 - []
+2023-04-11 20:07:15 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:07:15 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:07:15 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:07:15 Phase7 - []
+2023-04-11 20:07:15 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:07:15 ------ Phases : 1 & 2-------
+2023-04-11 20:07:15 Changing Traffic Lighttrue
+2023-04-11 20:07:15 Changing Traffic Lighttrue
+2023-04-11 20:07:16 GDW00CV has been added
+2023-04-11 20:07:17 Changing Traffic Lightfalse
+2023-04-11 20:07:17 Changing Traffic Lightfalse
+2023-04-11 20:07:17 ------ Phases : 3 & 4-------
+2023-04-11 20:07:17 Changing Traffic Lighttrue
+2023-04-11 20:07:17 Changing Traffic Lighttrue
+2023-04-11 20:07:22 NRD94AN has been added
+2023-04-11 20:07:23 Changing Traffic Lightfalse
+2023-04-11 20:07:23 Changing Traffic Lightfalse
+2023-04-11 20:07:23 ------ Phases : 5 & 6-------
+2023-04-11 20:07:23 Changing Traffic Lighttrue
+2023-04-11 20:07:23 Changing Traffic Lighttrue
+2023-04-11 20:07:27 Changing Traffic Lightfalse
+2023-04-11 20:07:27 Changing Traffic Lightfalse
+2023-04-11 20:07:27 ------ Phases : 7 & 8-------
+2023-04-11 20:07:27 Changing Traffic Lighttrue
+2023-04-11 20:07:27 Changing Traffic Lighttrue
+2023-04-11 20:07:28 VWN35UF has been added
+2023-04-11 20:07:31 Changing Traffic Lightfalse
+2023-04-11 20:07:31 Changing Traffic Lightfalse
+2023-04-11 20:07:31 Organising vehicles into lanes
+2023-04-11 20:07:31 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:07:31 Phase2 - [NRD94AN , Waiting , TRUCK , 8 , 18 , Straight , 12}]
+2023-04-11 20:07:31 Phase3 - []
+2023-04-11 20:07:31 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:07:31 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}, VWN35UF , Waiting , TRUCK , 8 , 19 , Left , 12}]
+2023-04-11 20:07:31 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:07:31 Phase7 - []
+2023-04-11 20:07:31 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:07:31 ------ Phases : 1 & 2-------
+2023-04-11 20:07:31 Changing Traffic Lighttrue
+2023-04-11 20:07:31 Changing Traffic Lighttrue
+2023-04-11 20:07:33 Changing Traffic Lightfalse
+2023-04-11 20:07:33 Changing Traffic Lightfalse
+2023-04-11 20:07:33 ------ Phases : 3 & 4-------
+2023-04-11 20:07:33 Changing Traffic Lighttrue
+2023-04-11 20:07:33 Changing Traffic Lighttrue
+2023-04-11 20:07:35 EUW00VR has been added
+2023-04-11 20:07:39 Changing Traffic Lightfalse
+2023-04-11 20:07:39 Changing Traffic Lightfalse
+2023-04-11 20:07:39 ------ Phases : 5 & 6-------
+2023-04-11 20:07:39 Changing Traffic Lighttrue
+2023-04-11 20:07:39 Changing Traffic Lighttrue
+2023-04-11 20:07:41 QWC31JU has been added
+2023-04-11 20:07:43 Changing Traffic Lightfalse
+2023-04-11 20:07:43 Changing Traffic Lightfalse
+2023-04-11 20:07:43 ------ Phases : 7 & 8-------
+2023-04-11 20:07:43 Changing Traffic Lighttrue
+2023-04-11 20:07:43 Changing Traffic Lighttrue
+2023-04-11 20:07:47 SPU76LR has been added
+2023-04-11 20:07:47 Changing Traffic Lightfalse
+2023-04-11 20:07:47 Changing Traffic Lightfalse
+2023-04-11 20:07:47 Organising vehicles into lanes
+2023-04-11 20:07:47 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:07:47 Phase2 - []
+2023-04-11 20:07:47 Phase3 - []
+2023-04-11 20:07:47 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:07:47 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}, SPU76LR , Waiting , BUS , 8 , 14 , Left , 10}]
+2023-04-11 20:07:47 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:07:47 Phase7 - []
+2023-04-11 20:07:47 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:07:47 ------ Phases : 1 & 2-------
+2023-04-11 20:07:47 Changing Traffic Lighttrue
+2023-04-11 20:07:47 Changing Traffic Lighttrue
+2023-04-11 20:07:49 Changing Traffic Lightfalse
+2023-04-11 20:07:49 Changing Traffic Lightfalse
+2023-04-11 20:07:49 ------ Phases : 3 & 4-------
+2023-04-11 20:07:49 Changing Traffic Lighttrue
+2023-04-11 20:07:49 Changing Traffic Lighttrue
+2023-04-11 20:07:53 PZD55CM has been added
+2023-04-11 20:07:55 Changing Traffic Lightfalse
+2023-04-11 20:07:55 Changing Traffic Lightfalse
+2023-04-11 20:07:55 ------ Phases : 5 & 6-------
+2023-04-11 20:07:55 Changing Traffic Lighttrue
+2023-04-11 20:07:55 Changing Traffic Lighttrue
+2023-04-11 20:07:59 QKA91WW has been added
+2023-04-11 20:07:59 Changing Traffic Lightfalse
+2023-04-11 20:07:59 Changing Traffic Lightfalse
+2023-04-11 20:07:59 ------ Phases : 7 & 8-------
+2023-04-11 20:07:59 Changing Traffic Lighttrue
+2023-04-11 20:07:59 Changing Traffic Lighttrue
+2023-04-11 20:08:03 Changing Traffic Lightfalse
+2023-04-11 20:08:03 Changing Traffic Lightfalse
+2023-04-11 20:08:03 Organising vehicles into lanes
+2023-04-11 20:08:03 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}, QKA91WW , Waiting , TRUCK , 8 , 16 , Left , 12}]
+2023-04-11 20:08:03 Phase2 - []
+2023-04-11 20:08:03 Phase3 - []
+2023-04-11 20:08:03 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:08:03 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:08:03 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:08:03 Phase7 - []
+2023-04-11 20:08:03 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:08:03 ------ Phases : 1 & 2-------
+2023-04-11 20:08:03 Changing Traffic Lighttrue
+2023-04-11 20:08:03 Changing Traffic Lighttrue
+2023-04-11 20:08:05 JMB12YZ has been added
+2023-04-11 20:08:05 Changing Traffic Lightfalse
+2023-04-11 20:08:05 Changing Traffic Lightfalse
+2023-04-11 20:08:05 ------ Phases : 3 & 4-------
+2023-04-11 20:08:05 Changing Traffic Lighttrue
+2023-04-11 20:08:05 Changing Traffic Lighttrue
+2023-04-11 20:08:11 YLA27IN has been added
+2023-04-11 20:08:11 Changing Traffic Lightfalse
+2023-04-11 20:08:11 Changing Traffic Lightfalse
+2023-04-11 20:08:11 ------ Phases : 5 & 6-------
+2023-04-11 20:08:11 Changing Traffic Lighttrue
+2023-04-11 20:08:11 Changing Traffic Lighttrue
+2023-04-11 20:08:15 Changing Traffic Lightfalse
+2023-04-11 20:08:15 Changing Traffic Lightfalse
+2023-04-11 20:08:15 ------ Phases : 7 & 8-------
+2023-04-11 20:08:15 Changing Traffic Lighttrue
+2023-04-11 20:08:15 Changing Traffic Lighttrue
+2023-04-11 20:08:17 HJY52JY has been added
+2023-04-11 20:08:19 Changing Traffic Lightfalse
+2023-04-11 20:08:19 Changing Traffic Lightfalse
+2023-04-11 20:08:19 Organising vehicles into lanes
+2023-04-11 20:08:19 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:08:19 Phase2 - [HJY52JY , Waiting , TRUCK , 8 , 17 , Straight , 12}]
+2023-04-11 20:08:19 Phase3 - []
+2023-04-11 20:08:19 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:08:19 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:08:19 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:08:19 Phase7 - []
+2023-04-11 20:08:19 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:08:19 ------ Phases : 1 & 2-------
+2023-04-11 20:08:19 Changing Traffic Lighttrue
+2023-04-11 20:08:19 Changing Traffic Lighttrue
+2023-04-11 20:08:21 Changing Traffic Lightfalse
+2023-04-11 20:08:21 Changing Traffic Lightfalse
+2023-04-11 20:08:21 ------ Phases : 3 & 4-------
+2023-04-11 20:08:21 Changing Traffic Lighttrue
+2023-04-11 20:08:21 Changing Traffic Lighttrue
+2023-04-11 20:08:23 YXP19LI has been added
+2023-04-11 20:08:27 Changing Traffic Lightfalse
+2023-04-11 20:08:27 Changing Traffic Lightfalse
+2023-04-11 20:08:27 ------ Phases : 5 & 6-------
+2023-04-11 20:08:27 Changing Traffic Lighttrue
+2023-04-11 20:08:27 Changing Traffic Lighttrue
+2023-04-11 20:08:29 ONT15QH has been added
+2023-04-11 20:08:31 Changing Traffic Lightfalse
+2023-04-11 20:08:31 Changing Traffic Lightfalse
+2023-04-11 20:08:31 ------ Phases : 7 & 8-------
+2023-04-11 20:08:31 Changing Traffic Lighttrue
+2023-04-11 20:08:31 Changing Traffic Lighttrue
+2023-04-11 20:08:35 APU47IS has been added
+2023-04-11 20:08:35 Changing Traffic Lightfalse
+2023-04-11 20:08:35 Changing Traffic Lightfalse
+2023-04-11 20:08:35 Organising vehicles into lanes
+2023-04-11 20:08:35 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:08:35 Phase2 - []
+2023-04-11 20:08:35 Phase3 - [ONT15QH , Waiting , TRUCK , 8 , 17 , Left , 12}]
+2023-04-11 20:08:35 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:08:35 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}, APU47IS , Waiting , CAR , 3 , 5 , Left , 5}]
+2023-04-11 20:08:35 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:08:35 Phase7 - []
+2023-04-11 20:08:35 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:08:35 ------ Phases : 1 & 2-------
+2023-04-11 20:08:35 Changing Traffic Lighttrue
+2023-04-11 20:08:35 Changing Traffic Lighttrue
+2023-04-11 20:08:37 Changing Traffic Lightfalse
+2023-04-11 20:08:37 Changing Traffic Lightfalse
+2023-04-11 20:08:37 ------ Phases : 3 & 4-------
+2023-04-11 20:08:37 Changing Traffic Lighttrue
+2023-04-11 20:08:37 Changing Traffic Lighttrue
+2023-04-11 20:08:41 QFC54ZN has been added
+2023-04-11 20:08:43 Changing Traffic Lightfalse
+2023-04-11 20:08:43 Changing Traffic Lightfalse
+2023-04-11 20:08:43 ------ Phases : 5 & 6-------
+2023-04-11 20:08:43 Changing Traffic Lighttrue
+2023-04-11 20:08:43 Changing Traffic Lighttrue
+2023-04-11 20:08:47 MUP18OE has been added
+2023-04-11 20:08:47 Changing Traffic Lightfalse
+2023-04-11 20:08:47 Changing Traffic Lightfalse
+2023-04-11 20:08:47 ------ Phases : 7 & 8-------
+2023-04-11 20:08:47 Changing Traffic Lighttrue
+2023-04-11 20:08:47 Changing Traffic Lighttrue
+2023-04-11 20:08:51 Changing Traffic Lightfalse
+2023-04-11 20:08:51 Changing Traffic Lightfalse
+2023-04-11 20:08:51 Organising vehicles into lanes
+2023-04-11 20:08:51 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}, MUP18OE , Waiting , BUS , 8 , 13 , Left , 10}]
+2023-04-11 20:08:51 Phase2 - []
+2023-04-11 20:08:51 Phase3 - []
+2023-04-11 20:08:51 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:08:51 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:08:51 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:08:51 Phase7 - []
+2023-04-11 20:08:51 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:08:51 ------ Phases : 1 & 2-------
+2023-04-11 20:08:51 Changing Traffic Lighttrue
+2023-04-11 20:08:51 Changing Traffic Lighttrue
+2023-04-11 20:08:53 LVB65RB has been added
+2023-04-11 20:08:53 Changing Traffic Lightfalse
+2023-04-11 20:08:53 Changing Traffic Lightfalse
+2023-04-11 20:08:53 ------ Phases : 3 & 4-------
+2023-04-11 20:08:53 Changing Traffic Lighttrue
+2023-04-11 20:08:53 Changing Traffic Lighttrue
+2023-04-11 20:08:59 TUJ15XA has been added
+2023-04-11 20:08:59 Changing Traffic Lightfalse
+2023-04-11 20:08:59 Changing Traffic Lightfalse
+2023-04-11 20:08:59 ------ Phases : 5 & 6-------
+2023-04-11 20:08:59 Changing Traffic Lighttrue
+2023-04-11 20:08:59 Changing Traffic Lighttrue
+2023-04-11 20:09:03 Changing Traffic Lightfalse
+2023-04-11 20:09:03 Changing Traffic Lightfalse
+2023-04-11 20:09:03 ------ Phases : 7 & 8-------
+2023-04-11 20:09:03 Changing Traffic Lighttrue
+2023-04-11 20:09:03 Changing Traffic Lighttrue
+2023-04-11 20:09:05 CXH74EB has been added
+2023-04-11 20:09:07 Changing Traffic Lightfalse
+2023-04-11 20:09:07 Changing Traffic Lightfalse
+2023-04-11 20:09:07 Organising vehicles into lanes
+2023-04-11 20:09:07 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}, CXH74EB , Waiting , TRUCK , 8 , 17 , Left , 12}]
+2023-04-11 20:09:07 Phase2 - []
+2023-04-11 20:09:07 Phase3 - []
+2023-04-11 20:09:07 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:09:07 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:09:07 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:09:07 Phase7 - []
+2023-04-11 20:09:07 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:09:07 ------ Phases : 1 & 2-------
+2023-04-11 20:09:07 Changing Traffic Lighttrue
+2023-04-11 20:09:07 Changing Traffic Lighttrue
+2023-04-11 20:09:09 Changing Traffic Lightfalse
+2023-04-11 20:09:09 Changing Traffic Lightfalse
+2023-04-11 20:09:09 ------ Phases : 3 & 4-------
+2023-04-11 20:09:09 Changing Traffic Lighttrue
+2023-04-11 20:09:09 Changing Traffic Lighttrue
+2023-04-11 20:09:11 FDV59QF has been added
+2023-04-11 20:09:15 Changing Traffic Lightfalse
+2023-04-11 20:09:15 Changing Traffic Lightfalse
+2023-04-11 20:09:15 ------ Phases : 5 & 6-------
+2023-04-11 20:09:15 Changing Traffic Lighttrue
+2023-04-11 20:09:15 Changing Traffic Lighttrue
+2023-04-11 20:09:17 ETD85KF has been added
+2023-04-11 20:09:19 Changing Traffic Lightfalse
+2023-04-11 20:09:19 Changing Traffic Lightfalse
+2023-04-11 20:09:19 ------ Phases : 7 & 8-------
+2023-04-11 20:09:19 Changing Traffic Lighttrue
+2023-04-11 20:09:19 Changing Traffic Lighttrue
+2023-04-11 20:09:23 BQX08DA has been added
+2023-04-11 20:09:23 Changing Traffic Lightfalse
+2023-04-11 20:09:23 Changing Traffic Lightfalse
+2023-04-11 20:09:23 Organising vehicles into lanes
+2023-04-11 20:09:23 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:09:23 Phase2 - [BQX08DA , Waiting , CAR , 3 , 3 , Right , 5}]
+2023-04-11 20:09:23 Phase3 - []
+2023-04-11 20:09:23 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:09:23 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:09:23 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:09:23 Phase7 - []
+2023-04-11 20:09:23 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:09:23 ------ Phases : 1 & 2-------
+2023-04-11 20:09:23 Changing Traffic Lighttrue
+2023-04-11 20:09:23 Changing Traffic Lighttrue
+2023-04-11 20:09:25 Changing Traffic Lightfalse
+2023-04-11 20:09:25 Changing Traffic Lightfalse
+2023-04-11 20:09:25 ------ Phases : 3 & 4-------
+2023-04-11 20:09:25 Changing Traffic Lighttrue
+2023-04-11 20:09:25 Changing Traffic Lighttrue
+2023-04-11 20:09:29 WAL30YQ has been added
+2023-04-11 20:09:31 Changing Traffic Lightfalse
+2023-04-11 20:09:31 Changing Traffic Lightfalse
+2023-04-11 20:09:31 ------ Phases : 5 & 6-------
+2023-04-11 20:09:31 Changing Traffic Lighttrue
+2023-04-11 20:09:31 Changing Traffic Lighttrue
+2023-04-11 20:09:35 ESV18YG has been added
+2023-04-11 20:09:35 Changing Traffic Lightfalse
+2023-04-11 20:09:35 Changing Traffic Lightfalse
+2023-04-11 20:09:35 ------ Phases : 7 & 8-------
+2023-04-11 20:09:35 Changing Traffic Lighttrue
+2023-04-11 20:09:35 Changing Traffic Lighttrue
+2023-04-11 20:09:39 Changing Traffic Lightfalse
+2023-04-11 20:09:39 Changing Traffic Lightfalse
+2023-04-11 20:09:39 Organising vehicles into lanes
+2023-04-11 20:09:39 Phase1 - [BD51SMR , Crossed , CAR , 3 , 5 , Left , 15}, SK15CVC , Crossed , BUS , 12 , 20 , Left , 27}]
+2023-04-11 20:09:39 Phase2 - []
+2023-04-11 20:09:39 Phase3 - []
+2023-04-11 20:09:39 Phase4 - [AC67SAE , Crossed , CAR , 5 , 4 , Right , 15}, TREE345 , Crossed , BUS , 12 , 20 , Straight , 27}]
+2023-04-11 20:09:39 Phase5 - [BR33DED , Crossed , CAR , 5 , 4 , Left , 15}]
+2023-04-11 20:09:39 Phase6 - [SA11LLY , Crossed , TRUCK , 10 , 20 , Straight , 30}]
+2023-04-11 20:09:39 Phase7 - []
+2023-04-11 20:09:39 Phase8 - [GR33NNN , Crossed , TRUCK , 12 , 25 , Straight , 25}]
+2023-04-11 20:09:39 ------ Phases : 1 & 2-------
+2023-04-11 20:09:39 Changing Traffic Lighttrue
+2023-04-11 20:09:39 Changing Traffic Lighttrue

@@ -1,4 +1,10 @@
 package view;
+
+/* @author Abiodun Oluwaseun
+ * Display the Gui for the program
+ * 
+ */
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -66,7 +72,7 @@ public class VView extends JFrame{
     public VView(Object[][] veh, Object[][] ph, Object [][] stat) {
     	
     	setTitle("Road Intersection");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		getContentPane().setBackground(new Color(2,0,36));
         setSize(1250,700);
         setLocationRelativeTo(null);  
