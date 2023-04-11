@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -380,8 +381,18 @@ public class VController implements Runnable {
 				trafficqueues.get(i).start();
 			}
 			
+			
+			
 			while(exit == false) {
 				int segment = 1;
+				
+				//Initialising PhaseStats
+//				for (int i = 0; i < PhaseTime.size(); i ++) {
+//					PhaseStats.put(""+i,new statistics());
+//					QShare.add(new QueueShare());
+//				}
+//				
+//				makeQueues();
 				//make an array of time share -- done
 				//each traffic queue gets its own time share telling each one the time it can calculate.
 				for(int i = 0; i < 8 ; i +=2) {
@@ -484,6 +495,103 @@ public class VController implements Runnable {
 	public void updateGUI() {
     	v.updateView(vehToObj(), segToObj());
     	v.getCo().setText(CalcTotalEmissions()+"g");   
+	}
+	
+	private void randomVehicles() {
+		String vehicleID = "null";
+		String vehicleType = "null";
+		String crossTi = "0";
+		String Direction = "null";
+		String carLe = "0";
+		String carEm = "0";
+		String segmNo = "0";
+		
+		Random random = new Random();
+		StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < 9; i++) {
+            if (i == 4) {
+                sb.append("");
+            } else if (i < 5) {
+                sb.append((char) (random.nextInt(26) + 'A')); // Uppercase letter
+            } else if (i < 7 ) {
+                sb.append(random.nextInt(10)); // Digit
+            } else {
+                sb.append((char) (random.nextInt(26) + 'A')); // Lowercase letter
+            }
+        }
+        vehicleID = sb.toString();
+		
+        int directNo = random.nextInt(3);
+        int cartNo = random.nextInt(3);
+        int segNo = random.nextInt(1,4);
+		
+		switch (directNo) {
+	        case 0:
+	            Direction = "Left";
+	            break;
+	        case 1:
+	            Direction = "Straight";
+	            break;
+	        case 2:
+	            Direction = "Right";
+	            break;
+		}
+		
+		switch (cartNo) {
+	        case 0:
+	            vehicleType = "BUS";
+	            carLe = ""+random.nextInt(10,15);
+	            carEm = "10";
+	            crossTi = "8";
+	            break;
+	        case 1:
+	            vehicleType = "CAR";
+	            carLe = ""+random.nextInt(3,6);
+	            carEm = "5";
+	            crossTi = "3";
+	            break;
+	        case 2:
+	            vehicleType = "TRUCK";
+	            carLe = ""+random.nextInt(16,20);
+	            carEm = "12";
+	            crossTi = "8";
+	            break;
+		}
+		
+		switch (segNo) {
+        	case 1:
+	            segmNo = "1";
+	            break;
+	        case 2:
+	            segmNo = "2";
+	            break;
+	        case 3:
+	            segmNo = "3";
+	            break;
+	        case 4:
+	            segmNo = "4";
+	            break;
+	        default:
+	            segmNo = "1";
+	            break;
+		}
+		
+		Object[] newVehicle = new Object[] {
+				vehicleID, 
+				vehicleType,
+				crossTi,
+				Direction,
+				carLe,
+				carEm,
+				segmNo
+			};
+			
+			try {
+				AddVehicle(newVehicle);
+			} catch (DuplicateIdException e) {
+				e.printStackTrace();
+			}
+		
 	}
 
 	

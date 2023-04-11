@@ -35,6 +35,7 @@ public class VView extends JFrame{
 	private VModel VM;
 	private JTable vehicleTable, phaseTable, statisticsTable, upstatisticsTable, upvehicleTable;
     private VModel vehicleModel, phaseModel, statisticsModel, upvehicleModel;
+    private VModel vehUp, statUp;
     JScrollPane vehPane = new JScrollPane();
     JScrollPane upPane = new JScrollPane();
     JScrollPane phPane = new JScrollPane();
@@ -407,6 +408,21 @@ public class VView extends JFrame{
 	        
     }
     
+    public void vehTabUP(Object[][] data1) {
+    	String [] vehicleColumnNames = {
+    			"VEHICLE", "TYPE", "CROSSING TIME", "DIRECTION", "LENGTH", "EMISSION", "STATUS", "SEGMENT"
+        	};
+    	vehUp = new VModel(data1, vehicleColumnNames);
+    	vehicleTable.setModel(vehUp);
+    }
+    
+    public void statTabUP(Object[][] data1) {
+    	String [] statColumnNames = {
+            	"SEGMENT", "WAITING TIME", "WAITING LENGTH", "CROSS TIME"
+        	};
+    	statUp = new VModel(data1, statColumnNames);
+    	statisticsTable.setModel(statUp);
+    }
     
     public void displayView(Object[][] veh, Object[][] ph, Object [][] stat) {
     	vehicleTable(veh);
@@ -419,8 +435,8 @@ public class VView extends JFrame{
     }
     
     public void updateView(Object[][] vehi, Object[][] stati ){
-    	vehicleTable(vehi);
-    	statisticsTable(stati);
+    	vehTabUP(vehi);
+    	statTabUP(stati);
     }
     
 	public void exitGui(ActionListener exitApp) {
