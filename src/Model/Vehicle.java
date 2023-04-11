@@ -20,7 +20,7 @@ public class Vehicle implements Runnable {
 	int Emission;	  // Grams of CO2 emitted
 	String Status;	  // Waiting - driving?
 	String Segment;
-	ShareLight light;
+	VehicleShare vShare;
 	int distance;
 	
 	/*
@@ -34,9 +34,10 @@ public class Vehicle implements Runnable {
 		this.Emission = Emission;
 		this.setStatus("Waiting");
 		this.Segment = Segment;
+		this.Direction = Direction;
 	}
 	
-	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission, String Segment,ShareLight light,int Distance) {
+	public Vehicle(String ID, String Type, int CrossTime, int Length, String Direction, int Emission, String Segment,VehicleShare light,int Distance) {
 		this.setID(ID);
 		this.Type = Type;
 		this.setCrossTime(CrossTime);
@@ -44,8 +45,9 @@ public class Vehicle implements Runnable {
 		this.Emission = Emission;
 		this.setStatus("Waiting");
 		this.Segment = Segment;
-		this.light = light;
+		this.vShare = light;
 		this.distance = Distance;
+		this.Direction = Direction;
 
 	}
 	
@@ -134,13 +136,13 @@ public class Vehicle implements Runnable {
 	
 	@Override
 	public void run() {
-		while(!light.getDone()) {
-			if(light.getWaitG().equals("G")) {
+		while(!vShare.getDone()) {
+			if(vShare.getWaitG().equals("G")) {
 				System.out.println(distance);
 				if(distance == 0) {
-					light.putWait(true);
+					vShare.putWait(true);
 				}else{
-					distance -= light.getMove();
+					distance -= vShare.getMove();
 				}
 			}
 			try {

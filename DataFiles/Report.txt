@@ -1,10 +1,10 @@
 p1 : 0
 p2 : 2
-p3 : 1
+p3 : 2
 p4 : 0
 p5 : 1
-p6 : 0
+p6 : 1
 p7 : 1
 p8 : 0
-Total Emissions : 263g
-Average Wait : 125s
+Total Emissions : 5g
+Average Wait : 2s

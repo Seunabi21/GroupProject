@@ -5,7 +5,7 @@ package Model;
 * contains data transfer from Traffic queue to Vehicle threads
 */
 
-public class ShareLight {
+public class VehicleShare {
 	public String state; //state if the light- R | A | G
 	private int move; // how far cars can move forward
 	private boolean waiting; //whether a car is waiting for the junction to be clear
@@ -15,7 +15,7 @@ public class ShareLight {
 	/*
 	 * Constructor
 	 */
-	public ShareLight(int qNo) {
+	public VehicleShare(int qNo) {
 		state = "R";
 		move = 0;
 		this.qNo = qNo;

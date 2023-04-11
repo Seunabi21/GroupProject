@@ -16,9 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import Model.TimeShare;
+import Model.QueueShare;
 import Model.TrafficQueue;
-import Model.UIShare;
 import Model.Vehicle;
 import Model.statistics;
 import view.DuplicateIdException;
@@ -33,19 +32,19 @@ public class VController implements Runnable {
 	HashMap <String, Queue <Vehicle> > Phase; //Stores the phase and queue of vehicles
 	HashMap <String, statistics> PhaseStats; //Stores the statistics attributed to each phase
 	ArrayList<Integer> PhaseTime; //Stores the time for each phase
-	ArrayList<TimeShare> timeShare;
-	ArrayList<Thread> trafficqueues;
-	UIShare uiContent;
+	ArrayList<QueueShare> QShare; //Transfers information to the queues of traffic
+	ArrayList<Thread> trafficqueues; //Stores a buffer of traffic queues
+	boolean AddVehicle = false; //whether there is a vehicle to be added to a queue
+	boolean exit = false; //whether to exit the program
 	private VView v;
 	
-	
-	public VController(UIShare uiContent){
-		this.uiContent = uiContent;
+	//Constructor
+	public VController(){
 		// Intialising Variables
 		Phase = new HashMap<>();
 		PhaseStats = new HashMap<String, statistics>();
 		PhaseTime = new ArrayList<Integer>();
-		timeShare = new ArrayList<TimeShare>();
+		QShare = new ArrayList<QueueShare>();
 		trafficqueues = new ArrayList<Thread>();
 
 		importVehicles();//Importing data from csv
@@ -54,26 +53,28 @@ public class VController implements Runnable {
 		//Initialising PhaseStats
 		for (int i = 0; i < PhaseTime.size(); i ++) {
 			PhaseStats.put(""+i,new statistics());
-			timeShare.add(new TimeShare());
+			QShare.add(new QueueShare());
 		}
-		
+		//creating queues of traffic from input data
 		makeQueues();
-		this.uiContent.setUI(Phase, PhaseStats, PhaseTime);
 		
+		//Initialising gui
 		v = new VView(vehToObj(), phaseToObj(), segToObj());
 		v.addVehicle(new addVehicle());
 		v.exitGui(new exitGui());
 		v.startSim(new startSimulation());
 		
 	}
-	
+	/*
+	 * Generates Queue threads from imported information.
+	 */
 	public void makeQueues() {
 		System.out.println("Organising vehicles into lanes");
 		int i =0;
 		int seg = 1;
 		boolean lane = true;
 		for(i =0; i < 8; i ++) {
-			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),timeShare.get(i),PhaseStats.get(String.valueOf(i)))));
+			trafficqueues.add(new Thread(new TrafficQueue(seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))),QShare.get(i),PhaseStats.get(String.valueOf(i)))));
 			System.out.println(i + " - " +seperateLanes(lane,new ArrayList<Vehicle>(Phase.get(String.valueOf(seg)))));
 			lane = !lane;
 			if (lane) {
@@ -103,24 +104,26 @@ public class VController implements Runnable {
 	 */
 	public void AddVehicle(Object[] uiInput) throws DuplicateIdException {
 		try {
-			String vehID = ((String)uiInput[0]);
-			System.out.println(vehID);
-			Integer count = 0;
-			for(Queue<Vehicle> i: Phase.values()) {
-				for(Vehicle j : i){
-					System.out.println(j.getID());
-					if((j.getID()).equals(vehID)) {
-						count += 1;
-					}
-				}
-			}
+			Vehicle newV = new Vehicle(uiInput);
+			int phaseNo = Integer.parseInt((String) uiInput[6]);
 			
-			if(count == 0) {
-				Phase.get((String)uiInput[6]).add(new Vehicle(uiInput));
-			}else {
-				throw new DuplicateIdException(((String)uiInput[0])+" already exist");
-			}
-			
+			switch (phaseNo) {
+		        case 1:
+		        	phaseNo = 0;
+		        case 2:
+		        	phaseNo = 2;
+		        case 3:
+		        	phaseNo = 4;
+		        case 4:
+		        	phaseNo = 6;
+		        default:
+		            
+		    }
+			if(!newV.getDirection().equals("Left")) {
+				phaseNo ++;
+        	}
+			QShare.get(phaseNo).addVehicleNew(newV);
+			AddVehicle = false;
 		} catch (ValidationExeption e) {
 			e.printStackTrace();
 		}
@@ -301,69 +304,7 @@ public class VController implements Runnable {
 	      e.printStackTrace();
 	    }
 			  
-		
-		
-		
 		return "";
-	}
-	/*
-	 * Phase Calculations for vehicle transition through junction
-	 * also calculates statistics
-	 */
-	public void CalcPhases() {
-		int count = 0;
-		while(!isCrossed() && count < 1000) {
-			int p = 0;
-			int phaseTime = 0;
-			while ( p <  PhaseTime.size()) {
-				int curP = PhaseTime.get(p);
-				int vTime = 0;
-				phaseTime += curP;
-				Queue <Vehicle> CurrentPhase = Phase.get("" + (p+2)/2);
-				//P is for each Phase , segment Right & straight and left turn lanes
-				// converts to segment
-				for (Vehicle v : CurrentPhase) {
-					if((curP - v.getCrossTime())>=0 &&(v.getDirection().equals("Right") || v.getDirection().equals("Straight")) &&! v.getStatus().equals("Crossed")) { // Even -- Right & Strait
-						vTime += v.getCrossTime();
-						UpdateStats( v, vTime, phaseTime,  p);
-						
-					}else if ((curP - v.getCrossTime())>=0 && !v.getStatus().equals("Crossed")){ //Odd -- Left
-						vTime += v.getCrossTime();
-						UpdateStats( v, vTime, phaseTime,  p);
-					}
-				}
-				p++;
-			};
-			count ++;
-		}
-	}
-	/*
-	 * returns whether all vehicles have crossed or not
-	 */
-	private Boolean isCrossed() {
-		int p = 0;
-		while ( p <  PhaseTime.size()) {
-			Queue <Vehicle> CurrentPhase = Phase.get("" + (p+2)/2);
-			for (Vehicle v : CurrentPhase) {
-				if(v.getStatus() != "Crossed") {
-					System.out.println("Vehicle not crossed found");
-					return false;
-				}
-			}
-			p++;
-		};
-		return true;
-	}
-	/*
-	 * Updates the statistics, only used within Calc Phases
-	 * Reduces repeating code
-	 */
-	private void UpdateStats(Vehicle v, int vTime, int curP, int p) {
-		v.setStatus("Crossed");
-		PhaseStats.get("" + p).setWaitTime(PhaseStats.get("" + p).getWaitTime() + vTime + curP); 
-		PhaseStats.get("" + p).setWaitLength(PhaseStats.get("" + p).getWaitLength() + v.getLength());
-		PhaseStats.get("" + p).setCrossTime(PhaseStats.get("" + p).getCrossTime() + v.getCrossTime());
-		PhaseStats.get(""+p).setEmissions((int) (PhaseStats.get(""+p).getEmissions() + (v.WaitEmissions(PhaseStats.get(""+p).getWaitTime()) + v.CrossEmisions())));
 	}
 	
 	/*
@@ -440,46 +381,51 @@ public class VController implements Runnable {
 			for(int i = 0; i < 8; i ++) {
 				trafficqueues.get(i).start();
 			}
-			int segment = 1;
-			//make an array of time share -- done
-			//each traffic queue gets its own time share telling each one the time it can calculate.
-			for(int i = 0; i < 8 ; i +=2) {
-				System.out.println("------ Phases : " + (i+1) +" & " + (i+2) + "-------");
-				timeShare.get(i).put(true);
-				timeShare.get(i+1).put(true);
-				try {
-					Thread.sleep(100*PhaseTime.get(i));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-				timeShare.get(i).put(false);
-				timeShare.get(i+1).put(false);
-				
-				while(!timeShare.get(i).getCalcDone() && !timeShare.get(i+1).getCalcDone()) {
+			
+			while(exit == false) {
+				int segment = 1;
+				//make an array of time share -- done
+				//each traffic queue gets its own time share telling each one the time it can calculate.
+				for(int i = 0; i < 8 ; i +=2) {
+					System.out.println("------ Phases : " + (i+1) +" & " + (i+2) + "-------");
+					QShare.get(i).put(true);
+					QShare.get(i+1).put(true);
 					try {
-						Thread.sleep(200);
+						Thread.sleep(100*PhaseTime.get(i));
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
+					QShare.get(i).put(false);
+					QShare.get(i+1).put(false);
+					
+					while(!QShare.get(i).getCalcDone() && !QShare.get(i+1).getCalcDone()) {
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					//QShare.get(i).setDone();
+					//QShare.get(i+1).setDone();
+					for(QueueShare t : QShare) {
+						t.addTime(PhaseTime.get(i));
+					}
+					System.out.println(Phase.keySet() +""+ (i+2/2));
+					Phase.get("" + segment).clear();
+					Phase.get("" + segment).addAll(QShare.get(i).getVehicles());
+					Phase.get("" + segment).addAll(QShare.get(i+1).getVehicles());
+					segment ++;
+					
+					updateGUI();
 				}
-				timeShare.get(i).setDone();
-				timeShare.get(i+1).setDone();
-				for(TimeShare t : timeShare) {
-					t.addTime(PhaseTime.get(i));
-				}
-				System.out.println(Phase.keySet() +""+ (i+2/2));
-				Phase.get("" + segment).clear();
-				Phase.get("" + segment).addAll(timeShare.get(i).getVehicles());
-				Phase.get("" + segment).addAll(timeShare.get(i+1).getVehicles());
-				segment ++;
-				
-				uiContent.setUI(Phase, PhaseStats, PhaseTime);
+
 			}
 			
+			
 			for(int i = 0; i < 4; i ++) {
-				timeShare.get(i).setDone();			
+				QShare.get(i).setDone();			
 			}
 			
 			System.out.println("-------Simulation Complete-------");
@@ -488,7 +434,8 @@ public class VController implements Runnable {
 	
 	
 	
-	
+	//Actions performed based on gui interactions
+	//adds a new vehicle
 	class addVehicle implements ActionListener{
 		public void actionPerformed(ActionEvent ca) {
 			Object[] newVehicle = new Object[] {
@@ -498,11 +445,12 @@ public class VController implements Runnable {
 				v.getDirectionT().getSelectedItem().toString(),
 				v.getLengthT().getText(),
 				v.getCarEmissionT().getText(),
-				v.getSegmentT().getSelectedItem().toString()
+				v.getSegmentT().getSelectedItem()
 			};
 			
 			try {
 				AddVehicle(newVehicle);
+				
 			} catch (DuplicateIdException e) {
 				e.printStackTrace();
 			}
@@ -519,6 +467,7 @@ public class VController implements Runnable {
 	class exitGui implements ActionListener{
 		public void actionPerformed(ActionEvent ca) {
 			JFrame confirmex = new JFrame("EXIT");
+			exit = true;
 		    if(JOptionPane.showConfirmDialog(confirmex, "Are you sure you want to exit","EXIT", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION){
 		    	generateReport();
 		    	System.exit(0);
@@ -528,12 +477,16 @@ public class VController implements Runnable {
 	
 	class startSimulation implements ActionListener{
 		public void actionPerformed(ActionEvent ca) {
-			CalcPhases();
+			//CalcPhases();
         	v.updateView(vehToObj(), segToObj());
-        	v.getCo().setText(CalcTotalEmissions()+"Kg");   
+        	v.getCo().setText(CalcTotalEmissions()+"g");   
         	System.out.println(CalcTotalEmissions());
             v.getStartButton().setText("Continue");
         }
+	}
+	public void updateGUI() {
+    	v.updateView(vehToObj(), segToObj());
+    	v.getCo().setText(CalcTotalEmissions()+"g");   
 	}
 
 	
