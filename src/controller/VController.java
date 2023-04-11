@@ -405,11 +405,6 @@ public class VController implements Runnable {
 				int segment = 1;
 				
 				makeQueues();	
-				//Initialising PhaseStats
-				for (int i = 0; i < PhaseTime.size(); i ++) {
-					PhaseStats.put(""+i,new statistics());
-					QShare.add(new QueueShare());
-				}
 				
 				//make an array of time share -- done
 				//each traffic queue gets its own time share telling each one the time it can calculate.
