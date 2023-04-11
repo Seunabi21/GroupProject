@@ -9,36 +9,54 @@ import java.util.Queue;
 * Processes a single queue of traffic.
 */
 public class TrafficQueue implements Runnable{
-	private Queue<Vehicle> Crossed;
-	private Queue<Vehicle> Waiting;
+	private Queue<Vehicle> Crossed;	//Tracking data for crossed vehicles
+	private Queue<Vehicle> Waiting; //tracking data for waiting vehicles
 	private Queue<Thread> Vehicles; //Stores the time for each phase
 	//Share Objects
-	private TimeShare timeshare; //Data transfer from junction controller
-	private ShareLight light; //Data transfer to stored vehicle threads
+	private QueueShare timeshare; //Data transfer from junction controller
+	private VehicleShare light; //Data transfer to stored vehicle threads
 	private statistics stats; //tracks statistics
 	
 	/*
 	 * Constructor
 	 */
-	public TrafficQueue(ArrayList<Vehicle> Vehicles, TimeShare timeshare, statistics stats){
+	public TrafficQueue(ArrayList<Vehicle> Vehicles, QueueShare timeshare, statistics stats){
 		this.timeshare = timeshare;//passing in share objects
 		this.stats = stats;
 		this.Vehicles =new LinkedList<>(); // making new queues
 		this.Waiting = new LinkedList<>();
 		Crossed = new LinkedList<>();
-		light = new ShareLight(Vehicles.size()); // Creating new share object
+		light = new VehicleShare(Vehicles.size()); // Creating new share object
 		
 		//Generating new instances of vehicles to avoid interference
 		/*slightly jank should find a better solution*/
 		int distance = 0;
 		for(Vehicle v : Vehicles) {
 			this.Vehicles.add(new Thread(new Vehicle(v.getID(),v.Type,v.getCrossTime(),v.getLength(),v.getDirection(),v.Emission,v.Segment,light,distance)));
+			System.out.println(v.getDirection());
 			Waiting.add(new Vehicle(v.getID(),v.Type,v.getCrossTime(),v.getLength(),v.getDirection(),v.Emission,v.Segment,light,distance));
 			distance += v.getLength();
 		}
 		
 		System.out.println(distance);
 		stats.addLength(distance);
+	}
+	/*
+	 * Methods
+	 */
+	// Adds new vehicles pased in to  
+	public void addNewVehicles(Queue<Vehicle> Vehicles) {
+		int distance = 0;
+
+		for(Vehicle v : Waiting) {
+			distance += v.getLength();
+		}
+		
+		for(Vehicle v : Vehicles) {
+			this.Vehicles.add(new Thread(new Vehicle(v.getID(),v.Type,v.getCrossTime(),v.getLength(),v.getDirection(),v.Emission,v.Segment,light,distance)));
+			Waiting.add(new Vehicle(v.getID(),v.Type,v.getCrossTime(),v.getLength(),v.getDirection(),v.Emission,v.Segment,light,distance));
+			distance += v.getLength();
+		}
 	}
 	//Returns the state of the vehicles contained
 	public Queue<Vehicle> getVehicles(){
@@ -59,6 +77,8 @@ public class TrafficQueue implements Runnable{
 		}
 		//while the light is set to green and the calculations haven't been completed
 		while (!timeshare.getDone() && !timeshare.getCalcDone()) {
+			addNewVehicles(timeshare.getVehicleNew());
+			
 			try { //slight time delay to avoid spam if repeated checks occour.
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

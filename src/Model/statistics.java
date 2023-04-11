@@ -1,5 +1,8 @@
 package Model;
-
+/* @author Ryan
+ * Tracks statistical information for output
+ * 
+ */
 public class statistics {
 	private int WaitTime;
 	private int WaitLength;
