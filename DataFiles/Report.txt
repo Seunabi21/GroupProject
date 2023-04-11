@@ -6,5 +6,5 @@ p5 : 1
 p6 : 1
 p7 : 1
 p8 : 0
-Total Emissions : 5g
-Average Wait : 2s
+Total Emissions : 97g
+Average Wait : 37s

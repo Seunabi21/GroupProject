@@ -104,26 +104,24 @@ public class VController implements Runnable {
 	 */
 	public void AddVehicle(Object[] uiInput) throws DuplicateIdException {
 		try {
-			Vehicle newV = new Vehicle(uiInput);
-			int phaseNo = Integer.parseInt((String) uiInput[6]);
+			String vehID = ((String)uiInput[0]);
+			System.out.println(vehID);
+			Integer count = 0;
+			for(Queue<Vehicle> i: Phase.values()) {
+				for(Vehicle j : i){
+					System.out.println(j.getID());
+					if((j.getID()).equals(vehID)) {
+						count += 1;
+					}
+				}
+			}
 			
-			switch (phaseNo) {
-		        case 1:
-		        	phaseNo = 0;
-		        case 2:
-		        	phaseNo = 2;
-		        case 3:
-		        	phaseNo = 4;
-		        case 4:
-		        	phaseNo = 6;
-		        default:
-		            
-		    }
-			if(!newV.getDirection().equals("Left")) {
-				phaseNo ++;
-        	}
-			QShare.get(phaseNo).addVehicleNew(newV);
-			AddVehicle = false;
+			if(count == 0) {
+				Phase.get((String)uiInput[6]).add(new Vehicle(uiInput));
+			}else {
+				throw new DuplicateIdException(((String)uiInput[0])+" already exist");
+			}
+			
 		} catch (ValidationExeption e) {
 			e.printStackTrace();
 		}
@@ -407,8 +405,8 @@ public class VController implements Runnable {
 							e.printStackTrace();
 						}
 					}
-					//QShare.get(i).setDone();
-					//QShare.get(i+1).setDone();
+					QShare.get(i).setDone();
+					QShare.get(i+1).setDone();
 					for(QueueShare t : QShare) {
 						t.addTime(PhaseTime.get(i));
 					}
@@ -445,12 +443,11 @@ public class VController implements Runnable {
 				v.getDirectionT().getSelectedItem().toString(),
 				v.getLengthT().getText(),
 				v.getCarEmissionT().getText(),
-				v.getSegmentT().getSelectedItem()
+				v.getSegmentT().getSelectedItem().toString()
 			};
 			
 			try {
 				AddVehicle(newVehicle);
-				
 			} catch (DuplicateIdException e) {
 				e.printStackTrace();
 			}
