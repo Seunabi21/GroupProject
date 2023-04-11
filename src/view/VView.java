@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
@@ -23,6 +24,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -35,6 +37,7 @@ public class VView extends JFrame{
 	private VModel VM;
 	private JTable vehicleTable, phaseTable, statisticsTable, upstatisticsTable, upvehicleTable;
     private VModel vehicleModel, phaseModel, statisticsModel, upvehicleModel;
+    private DefaultTableModel vehUp, statUp;
     JScrollPane vehPane = new JScrollPane();
     JScrollPane upPane = new JScrollPane();
     JScrollPane phPane = new JScrollPane();
@@ -73,8 +76,7 @@ public class VView extends JFrame{
         bgColor.setBackground(new Color(29,112,60));
 //        VM.addObserver(this);
         
-        displayView(veh,ph,stat);
-	        
+            
      	//	LABELS
 	        Icon vehIcon = new ImageIcon(getClass().getResource("/images/vehicles.png"));
 	        Icon statIcon = new ImageIcon(getClass().getResource("/images/statistics.png"));
@@ -168,6 +170,8 @@ public class VView extends JFrame{
 	        
 	        
 	    //	POSITIONS 
+	        vehPane = new JScrollPane();
+	        
 	        // HEADER POSITIONS
 	        	co = new JLabel(" kg",SwingConstants.CENTER);
 		        co.setBounds(940,330,130,60);
@@ -298,6 +302,8 @@ public class VView extends JFrame{
 			    exitButton.setBounds(1000,610,150,30);
 			    add(exitButton);
 		    //	END OF BUTTON POSITION
+			    
+			    displayView(veh,ph,stat);
     	
         setVisible(true);
     }
@@ -308,8 +314,8 @@ public class VView extends JFrame{
 			"VEHICLE", "TYPE", "CROSSING TIME", "DIRECTION", "LENGTH", "EMISSION", "STATUS", "SEGMENT"
     	};
     	vehicleModel = new VModel(data1, vehicleColumnNames);
-        vehicleTable = new JTable(vehicleModel);
-        
+		vehicleTable = new JTable(vehicleModel);
+    	
     	//	VEHICLE SETTING
 		vehicleTable.setAutoCreateRowSorter(true);
 	    vehicleTable.setBackground(primaryColor);
@@ -334,9 +340,26 @@ public class VView extends JFrame{
         int colCount = vehicleMod.getColumnCount();
         for(int i=0; i<colCount; i++){vehicleMod.getColumn(i).setCellRenderer(centerAlign);}
         
-        vehPane = new JScrollPane(vehicleTable);
-        vehPane.setBounds(20, 60,530,230);
-	    add(vehPane);
+        JScrollPane Panel = getVehPane();
+        Panel = new JScrollPane(vehicleTable);
+        Panel.setBounds(20, 60,530,230);
+	    add(Panel);
+    }
+    
+    public void vehTabUP(Object[][] data1) {
+    	String [] vehicleColumnNames = {
+    			"VEHICLE", "TYPE", "CROSSING TIME", "DIRECTION", "LENGTH", "EMISSION", "STATUS", "SEGMENT"
+        	};
+    	vehUp = new VModel(data1, vehicleColumnNames);
+    	vehicleTable.setModel(vehUp);
+    }
+    
+    public void statTabUP(Object[][] data1) {
+    	String [] statColumnNames = {
+            	"SEGMENT", "WAITING TIME", "WAITING LENGTH", "CROSS TIME"
+        	};
+    	statUp = new VModel(data1, statColumnNames);
+    	statisticsTable.setModel(statUp);
     }
     
     public void phaseTable(Object[][] data2) {
@@ -419,8 +442,8 @@ public class VView extends JFrame{
     }
     
     public void updateView(Object[][] vehi, Object[][] stati ){
-    	vehicleTable(vehi);
-    	statisticsTable(stati);
+    	vehTabUP(vehi);
+    	statTabUP(stati);
     }
     
 	public void exitGui(ActionListener exitApp) {
@@ -480,6 +503,31 @@ public class VView extends JFrame{
 
 	public void setStartButton(JButton startButton) {
 		this.startButton = startButton;
+	}
+
+
+	public JScrollPane getVehPane() {
+		return vehPane;
+	}
+
+
+	public JScrollPane getUpPane() {
+		return upPane;
+	}
+
+
+	public JScrollPane getPhPane() {
+		return phPane;
+	}
+
+
+	public JScrollPane getStatPane() {
+		return statPane;
+	}
+
+
+	public void setVehPane(JScrollPane vehPane) {
+		this.vehPane = vehPane;
 	}
 
 
