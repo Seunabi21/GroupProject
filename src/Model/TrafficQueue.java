@@ -13,7 +13,7 @@ public class TrafficQueue implements Runnable{
 	private Queue<Vehicle> Waiting; //tracking data for waiting vehicles
 	private Queue<Thread> Vehicles; //Stores the time for each phase
 	//Share Objects
-	private QueueShare timeshare; //Data transfer from junction controller
+	private QueueShare qShare; //Data transfer from junction controller
 	private VehicleShare light; //Data transfer to stored vehicle threads
 	private statistics stats; //tracks statistics
 	
@@ -21,7 +21,7 @@ public class TrafficQueue implements Runnable{
 	 * Constructor
 	 */
 	public TrafficQueue(ArrayList<Vehicle> Vehicles, QueueShare timeshare, statistics stats){
-		this.timeshare = timeshare;//passing in share objects
+		this.qShare = timeshare;//passing in share objects
 		this.stats = stats;
 		this.Vehicles =new LinkedList<>(); // making new queues
 		this.Waiting = new LinkedList<>();
@@ -71,21 +71,22 @@ public class TrafficQueue implements Runnable{
 	@Override
 	public void run() {
 		System.out.println("Waiting " + Waiting);
-
 		for (Thread t : this.Vehicles) {	//starting each of the individual vehicle threads no point starting them before they are needed
-			t.start();
+				t.start();
 		}
+
 		//while the light is set to green and the calculations haven't been completed
-		while (!timeshare.getDone() && !timeshare.getCalcDone()) {
-			addNewVehicles(timeshare.getVehicleNew());
-			
-			try { //slight time delay to avoid spam if repeated checks occour.
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
+		while (!qShare.getDone()) {
+			if(qShare.getWaitLightTrue()) {
+				if(Waiting.size() == 0) {
+					qShare.getVehicleNew();
+				}else {
+					addNewVehicles(qShare.getVehicleNew());
+					CalcPhase();
+				}
 			}
-			
-			if(timeshare.get()) {
-				CalcPhase();
+			if(qShare.getWaitLightFalse()) {
+				
 			}
 		}
 		//notifying the vehicles that this round is now complete.
@@ -100,28 +101,29 @@ public class TrafficQueue implements Runnable{
 			Thread.sleep(100);
 			light.put("G");
 			//waiting until a car is waiting
-			while(light.getWaiting() == true && timeshare.get() && Waiting.size() != 0) {
+			while(light.getWaiting() == true && Waiting.size() != 0) {
 				Vehicle v = Waiting.remove();
 				v.setStatus("Crossed");
 				Thread.sleep(100*v.getCrossTime());
 				Crossed.add(v);
 				
-				stats.addWait((v.getCrossTime() + timeshare.getTime()));
+				stats.addWait((v.getCrossTime() + qShare.getTime()));
 				stats.addCrosstime(v.getCrossTime());
-				stats.addEmissions((v.Emission*(v.getCrossTime() + timeshare.getTime()))/60);
+				stats.addEmissions((v.Emission*(v.getCrossTime() + qShare.getTime()))/60);
 				
 			}
 			//waiting unitl the controller says to change lights red.
-			while(timeshare.getDone()) {
+			while(qShare.getDone()) {
 				wait();
 			}
-			timeshare.setCalcDone();//stopping repeats
+			qShare.setCalcDone();//stopping repeats
 			light.put("A"); //changing lights red
 			Thread.sleep(100);
 			light.put("R");
 			System.out.println("Waiting :" + Waiting);
 			System.out.println("Crossed :" + Crossed);
-			timeshare.putVehicles(getVehicles());
+			qShare.putVehicles(getVehicles());
+			qShare.put(false);
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

@@ -9,7 +9,7 @@ import java.util.Queue;
 * contains data transfer from the JunctionController to the individual traffic Queues
 */
 public class QueueShare {
-	private boolean n;			//
+	private boolean LightState;			//
 	private int timeUntil;		//time until completion
 	private boolean done;		//notifys when complete
 	private boolean calcDone;	//tracks when the calculations are complete
@@ -19,7 +19,7 @@ public class QueueShare {
 	//Constructor
 	public QueueShare() {
 		timeUntil = 0;
-		n = false;
+		LightState = false;
 		done = false;
 		calcDone = false;
 		q =new LinkedList<>();
@@ -29,8 +29,9 @@ public class QueueShare {
 	// wait while no number
 	// when waiting over, get number
 	// set empty to true and notify waiting methods
-	public synchronized boolean get() {
-		while (calcDone) {
+	public synchronized boolean getWaitLightTrue() {
+		while (!LightState) {
+			System.out.println("Waiting on light");
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -38,7 +39,19 @@ public class QueueShare {
 			}
 		}
 		notifyAll();
-		return n;
+		return LightState;
+	}
+	public synchronized boolean getWaitLightFalse() {
+		while (LightState) {
+			System.out.println("Waiting on light");
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		notifyAll();
+		return LightState;
 	}
 	//Adds vehicles to q
 	public synchronized void putVehicles(Queue<Vehicle> q) {
@@ -54,7 +67,7 @@ public class QueueShare {
 
 		System.out.println("putlightState: " + n);
 		notifyAll();
-		this.n = n;
+		this.LightState = n;
 	}
 	
 	//Adds time to the lights
@@ -68,11 +81,20 @@ public class QueueShare {
 		return timeUntil;
 	}
 	//sets the done condition to true
-	public void setDone() {
+	public synchronized void setDone() {
+		notifyAll();
 		done = true;
 	}
 	//returns if the done condition is true
-	public boolean getDone() {
+	public synchronized boolean getDone() {
+		while(done) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return done;
 	}
 	//sets if the calculations have been complete
@@ -85,12 +107,31 @@ public class QueueShare {
 		return calcDone;
 	}
 	//adds a new vehicle to the queue of vehicles to be added
-	public void addVehicleNew(Vehicle v) {
+	public synchronized void addVehicleNew(Vehicle v) {
+		System.out.println(v.toString());
 		vAdded.add(v);
-		
+		notifyAll();
 	}
 	//reuturns the queue of vehicles added.
 	public Queue<Vehicle> getVehicleNew() {
-		return vAdded;
+		
+		Queue<Vehicle> v = vAdded;
+		vAdded.clear();
+		return v;
 	}
+	//reuturns the queue of vehicles added.
+		public synchronized Queue<Vehicle> WaitgetVehicleNew() {
+			while(vAdded.size() == 0) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println("Adding new vehicles");
+			Queue<Vehicle> v = vAdded;
+			vAdded.clear();
+			return v;
+		}
 }
